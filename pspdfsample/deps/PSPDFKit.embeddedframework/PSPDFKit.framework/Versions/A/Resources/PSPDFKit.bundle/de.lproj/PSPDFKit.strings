@@ -1,0 +1,94 @@
+/* 
+  Localization.strings
+  PSPDFKit
+
+  Copyright (c) 2012 Peter Steinberger. All rights reserved.
+*/
+
+// general
+"Close" = "Schließen";
+"Cancel" = "Abbrechen";
+"Open" = "Öffnen";
+"Untitled" = "Unbenannt";
+"File Not Found" = "Datei nicht gefunden";
+"Unnamed PDF" = "Unbenanntes PDF";
+"Go to %@" = "%@";
+"Page %d" = "Seite %d";
+
+// toolbar
+"Table Of Contents" = "Inhaltsverzeichnis";
+"Search" = "Suchen";
+"Email" = "E-Mail";
+"Email document" = "Dokument senden";
+"Email visible page" = "Nur sichtbare Seite senden";
+"Email visible pages" = "Nur sichtbare Seiten senden";
+"Open in..." = "Öffnen in…";
+"No Applications found" = "Es konnten keine kompatiblen Apps gefunden werden.";
+"Print" = "Drucken";
+"Annotations" = "Annotationen";
+"Add Bookmark" = "Bookmark hinzufügen";
+"Remove Bookmark" = "Bookmark entfernen";
+"Brightness" = "Helligkeit";
+
+// password
+"Unlock" = "Entsperren";
+"Please enter the password." = "Bitte geben sie das Passwort ein.";
+"This document cannot be unlocked. %@ is unsupported." = "Dieses Dokument kann nicht geöffnet werden. %@ nicht unterstützt.";
+
+// page
+"%d of %d" = "%d von %d";
+"%@ (%d of %d)" = "%@ (%d von %d)";
+
+// search
+"Page %d" = "Seite %d";
+"Search Document" = "Dokument durchsuchen";
+"No matches found" = "Keine Treffer gefunden";
+"One match found" = "Einen Treffer gefunden";
+"%d matches found" = "%d Treffer gefunden";
+"Searching..." = "Suchen…";
+"Search Completed" = "Suche abgeschlossen";
+"Search Cancelled" = "Suche abgebrochen";
+
+// inline browser
+"Copy Link" = "Link kopieren";
+"Open in Safari" = "In Safari öffnen";
+"Mail Link to this Page" = "Link zu dieser Seite mailen";
+"Your %@ is not configured to send emails." = "Ihr %@ ist nicht für das Email-senden konfiguriert.";
+"The link is requesting to open %@. Would you like to continue?" = "Dieser Link öffnet %@. Fortfahren?";
+"an external application" = "eine externe Applikation";
+"the App Store" = "den App Store";
+"Mail" = "Mail";
+
+// annotations
+"Remove" = "Entfernen";
+"Edit" = "Editieren";
+"Type..." = "Type…";
+"Choose Color" = "Farbe wählen";
+"Colors..." = "Farbe…";
+"Text..." = "Text…";
+"Yellow" = "Gelb";
+"Green" = "Grün";
+"Red" = "Rot";
+"Blue" = "Blau";
+"Pink" = "Pink";
+"Black" = "Schwarz";
+"Define" = "Definieren";
+"Wikipedia" = "Wikipedia";
+"Copy" = "Kopieren";
+"Highlight" = "Markieren";
+"Underline" = "Unterstreichen";
+"Strikeout" = "Durchstreichen";
+"Sketch" = "Zeichnen";
+"New Note" = "Neue Notiz";
+"Note" = "Notiz";
+"Text" = "Text";
+"Drawing Color" = "Farbe wählen";
+"Free Text" = "Freier Text";
+"Delete Note" = "Notiz entfernen";
+"Delete Highlight" = "Markierung entfernen";
+"Delete Free Text" = "Text entfernen";
+"%@ could not be found." = "%@ konnte nicht gefunden werden.";
+
+// voiceover accessibility
+"Page" = "Seite";
+"Grid" = "Thumbnails";

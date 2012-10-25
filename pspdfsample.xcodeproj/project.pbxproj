@@ -1,0 +1,368 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9E8B03BD1638DFD200E12F47 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E8B03BC1638DFD200E12F47 /* UIKit.framework */; };
+		9E8B03BF1638DFD200E12F47 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E8B03BE1638DFD200E12F47 /* Foundation.framework */; };
+		9E8B03C11638DFD200E12F47 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E8B03C01638DFD200E12F47 /* CoreGraphics.framework */; };
+		9E8B03C71638DFD200E12F47 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9E8B03C51638DFD200E12F47 /* InfoPlist.strings */; };
+		9E8B03C91638DFD200E12F47 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8B03C81638DFD200E12F47 /* main.m */; };
+		9E8B03CD1638DFD200E12F47 /* MTAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8B03CC1638DFD200E12F47 /* MTAppDelegate.m */; };
+		9E8B03CF1638DFD200E12F47 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E8B03CE1638DFD200E12F47 /* Default.png */; };
+		9E8B03D11638DFD200E12F47 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E8B03D01638DFD200E12F47 /* Default@2x.png */; };
+		9E8B03D31638DFD200E12F47 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E8B03D21638DFD200E12F47 /* Default-568h@2x.png */; };
+		9E8B03D61638DFD200E12F47 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E8B03D41638DFD200E12F47 /* MainStoryboard_iPhone.storyboard */; };
+		9E8B03D91638DFD200E12F47 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E8B03D71638DFD200E12F47 /* MainStoryboard_iPad.storyboard */; };
+		9E8B03DC1638DFD200E12F47 /* MTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8B03DB1638DFD200E12F47 /* MTViewController.m */; };
+		9E8B03EA1638E11700E12F47 /* PSPDFKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E8B03E31638E11700E12F47 /* PSPDFKit.framework */; };
+		9E8B03EB1638E11700E12F47 /* ACKNOWLEDGEMENTS in Resources */ = {isa = PBXBuildFile; fileRef = 9E8B03E51638E11700E12F47 /* ACKNOWLEDGEMENTS */; };
+		9E8B03EC1638E11700E12F47 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 9E8B03E61638E11700E12F47 /* LICENSE */; };
+		9E8B03ED1638E11700E12F47 /* PSPDFKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9E8B03E71638E11700E12F47 /* PSPDFKit.bundle */; };
+		9E8B03EE1638E11700E12F47 /* PSPDFKit.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 9E8B03E81638E11700E12F47 /* PSPDFKit.xcconfig */; };
+		9E8B03EF1638E11700E12F47 /* VERSION in Resources */ = {isa = PBXBuildFile; fileRef = 9E8B03E91638E11700E12F47 /* VERSION */; };
+		9E8B03FA1638E97D00E12F47 /* DevelopersGuide.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 9E8B03F91638E97D00E12F47 /* DevelopersGuide.pdf */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		9E8B03B81638DFD200E12F47 /* pspdfsample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pspdfsample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9E8B03BC1638DFD200E12F47 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		9E8B03BE1638DFD200E12F47 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		9E8B03C01638DFD200E12F47 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		9E8B03C41638DFD200E12F47 /* pspdfsample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "pspdfsample-Info.plist"; sourceTree = "<group>"; };
+		9E8B03C61638DFD200E12F47 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9E8B03C81638DFD200E12F47 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9E8B03CA1638DFD200E12F47 /* pspdfsample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "pspdfsample-Prefix.pch"; sourceTree = "<group>"; };
+		9E8B03CB1638DFD200E12F47 /* MTAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTAppDelegate.h; sourceTree = "<group>"; };
+		9E8B03CC1638DFD200E12F47 /* MTAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTAppDelegate.m; sourceTree = "<group>"; };
+		9E8B03CE1638DFD200E12F47 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		9E8B03D01638DFD200E12F47 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		9E8B03D21638DFD200E12F47 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		9E8B03D51638DFD200E12F47 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		9E8B03D81638DFD200E12F47 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
+		9E8B03DA1638DFD200E12F47 /* MTViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTViewController.h; sourceTree = "<group>"; };
+		9E8B03DB1638DFD200E12F47 /* MTViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTViewController.m; sourceTree = "<group>"; };
+		9E8B03E31638E11700E12F47 /* PSPDFKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PSPDFKit.framework; sourceTree = "<group>"; };
+		9E8B03E51638E11700E12F47 /* ACKNOWLEDGEMENTS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ACKNOWLEDGEMENTS; sourceTree = "<group>"; };
+		9E8B03E61638E11700E12F47 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		9E8B03E71638E11700E12F47 /* PSPDFKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PSPDFKit.bundle; sourceTree = "<group>"; };
+		9E8B03E81638E11700E12F47 /* PSPDFKit.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PSPDFKit.xcconfig; sourceTree = "<group>"; };
+		9E8B03E91638E11700E12F47 /* VERSION */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VERSION; sourceTree = "<group>"; };
+		9E8B03F91638E97D00E12F47 /* DevelopersGuide.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = DevelopersGuide.pdf; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9E8B03B51638DFD200E12F47 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9E8B03BD1638DFD200E12F47 /* UIKit.framework in Frameworks */,
+				9E8B03BF1638DFD200E12F47 /* Foundation.framework in Frameworks */,
+				9E8B03C11638DFD200E12F47 /* CoreGraphics.framework in Frameworks */,
+				9E8B03EA1638E11700E12F47 /* PSPDFKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9E8B03AD1638DFD200E12F47 = {
+			isa = PBXGroup;
+			children = (
+				9E8B03C21638DFD200E12F47 /* pspdfsample */,
+				9E8B03BB1638DFD200E12F47 /* Frameworks */,
+				9E8B03B91638DFD200E12F47 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9E8B03B91638DFD200E12F47 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9E8B03B81638DFD200E12F47 /* pspdfsample.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9E8B03BB1638DFD200E12F47 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9E8B03E21638E11700E12F47 /* PSPDFKit.embeddedframework */,
+				9E8B03BC1638DFD200E12F47 /* UIKit.framework */,
+				9E8B03BE1638DFD200E12F47 /* Foundation.framework */,
+				9E8B03C01638DFD200E12F47 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9E8B03C21638DFD200E12F47 /* pspdfsample */ = {
+			isa = PBXGroup;
+			children = (
+				9E8B03CB1638DFD200E12F47 /* MTAppDelegate.h */,
+				9E8B03CC1638DFD200E12F47 /* MTAppDelegate.m */,
+				9E8B03D41638DFD200E12F47 /* MainStoryboard_iPhone.storyboard */,
+				9E8B03D71638DFD200E12F47 /* MainStoryboard_iPad.storyboard */,
+				9E8B03DA1638DFD200E12F47 /* MTViewController.h */,
+				9E8B03DB1638DFD200E12F47 /* MTViewController.m */,
+				9E8B03C31638DFD200E12F47 /* Supporting Files */,
+			);
+			path = pspdfsample;
+			sourceTree = "<group>";
+		};
+		9E8B03C31638DFD200E12F47 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9E8B03D21638DFD200E12F47 /* Default-568h@2x.png */,
+				9E8B03CE1638DFD200E12F47 /* Default.png */,
+				9E8B03D01638DFD200E12F47 /* Default@2x.png */,
+				9E8B03F91638E97D00E12F47 /* DevelopersGuide.pdf */,
+				9E8B03C51638DFD200E12F47 /* InfoPlist.strings */,
+				9E8B03C81638DFD200E12F47 /* main.m */,
+				9E8B03C41638DFD200E12F47 /* pspdfsample-Info.plist */,
+				9E8B03CA1638DFD200E12F47 /* pspdfsample-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9E8B03E21638E11700E12F47 /* PSPDFKit.embeddedframework */ = {
+			isa = PBXGroup;
+			children = (
+				9E8B03E31638E11700E12F47 /* PSPDFKit.framework */,
+				9E8B03E41638E11700E12F47 /* Resources */,
+			);
+			name = PSPDFKit.embeddedframework;
+			path = pspdfsample/deps/PSPDFKit.embeddedframework;
+			sourceTree = "<group>";
+		};
+		9E8B03E41638E11700E12F47 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9E8B03E51638E11700E12F47 /* ACKNOWLEDGEMENTS */,
+				9E8B03E61638E11700E12F47 /* LICENSE */,
+				9E8B03E71638E11700E12F47 /* PSPDFKit.bundle */,
+				9E8B03E81638E11700E12F47 /* PSPDFKit.xcconfig */,
+				9E8B03E91638E11700E12F47 /* VERSION */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9E8B03B71638DFD200E12F47 /* pspdfsample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9E8B03DF1638DFD200E12F47 /* Build configuration list for PBXNativeTarget "pspdfsample" */;
+			buildPhases = (
+				9E8B03B41638DFD200E12F47 /* Sources */,
+				9E8B03B51638DFD200E12F47 /* Frameworks */,
+				9E8B03B61638DFD200E12F47 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = pspdfsample;
+			productName = pspdfsample;
+			productReference = 9E8B03B81638DFD200E12F47 /* pspdfsample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9E8B03AF1638DFD200E12F47 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = MT;
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = MapText;
+			};
+			buildConfigurationList = 9E8B03B21638DFD200E12F47 /* Build configuration list for PBXProject "pspdfsample" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 9E8B03AD1638DFD200E12F47;
+			productRefGroup = 9E8B03B91638DFD200E12F47 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9E8B03B71638DFD200E12F47 /* pspdfsample */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9E8B03B61638DFD200E12F47 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9E8B03C71638DFD200E12F47 /* InfoPlist.strings in Resources */,
+				9E8B03CF1638DFD200E12F47 /* Default.png in Resources */,
+				9E8B03D11638DFD200E12F47 /* Default@2x.png in Resources */,
+				9E8B03D31638DFD200E12F47 /* Default-568h@2x.png in Resources */,
+				9E8B03D61638DFD200E12F47 /* MainStoryboard_iPhone.storyboard in Resources */,
+				9E8B03D91638DFD200E12F47 /* MainStoryboard_iPad.storyboard in Resources */,
+				9E8B03EB1638E11700E12F47 /* ACKNOWLEDGEMENTS in Resources */,
+				9E8B03EC1638E11700E12F47 /* LICENSE in Resources */,
+				9E8B03ED1638E11700E12F47 /* PSPDFKit.bundle in Resources */,
+				9E8B03EE1638E11700E12F47 /* PSPDFKit.xcconfig in Resources */,
+				9E8B03EF1638E11700E12F47 /* VERSION in Resources */,
+				9E8B03FA1638E97D00E12F47 /* DevelopersGuide.pdf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9E8B03B41638DFD200E12F47 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9E8B03C91638DFD200E12F47 /* main.m in Sources */,
+				9E8B03CD1638DFD200E12F47 /* MTAppDelegate.m in Sources */,
+				9E8B03DC1638DFD200E12F47 /* MTViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		9E8B03C51638DFD200E12F47 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9E8B03C61638DFD200E12F47 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		9E8B03D41638DFD200E12F47 /* MainStoryboard_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9E8B03D51638DFD200E12F47 /* en */,
+			);
+			name = MainStoryboard_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		9E8B03D71638DFD200E12F47 /* MainStoryboard_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9E8B03D81638DFD200E12F47 /* en */,
+			);
+			name = MainStoryboard_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9E8B03DD1638DFD200E12F47 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9E8B03DE1638DFD200E12F47 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9E8B03E01638DFD200E12F47 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9E8B03E81638E11700E12F47 /* PSPDFKit.xcconfig */;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/pspdfsample/deps/PSPDFKit.embeddedframework\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "pspdfsample/pspdfsample-Prefix.pch";
+				INFOPLIST_FILE = "pspdfsample/pspdfsample-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		9E8B03E11638DFD200E12F47 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9E8B03E81638E11700E12F47 /* PSPDFKit.xcconfig */;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/pspdfsample/deps/PSPDFKit.embeddedframework\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "pspdfsample/pspdfsample-Prefix.pch";
+				INFOPLIST_FILE = "pspdfsample/pspdfsample-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9E8B03B21638DFD200E12F47 /* Build configuration list for PBXProject "pspdfsample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9E8B03DD1638DFD200E12F47 /* Debug */,
+				9E8B03DE1638DFD200E12F47 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9E8B03DF1638DFD200E12F47 /* Build configuration list for PBXNativeTarget "pspdfsample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9E8B03E01638DFD200E12F47 /* Debug */,
+				9E8B03E11638DFD200E12F47 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9E8B03AF1638DFD200E12F47 /* Project object */;
+}
