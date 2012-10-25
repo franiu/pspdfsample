@@ -20,14 +20,22 @@
                                 </items>
                             </toolbar>
                             <view contentMode="scaleToFill" id="ktv-GX-jxr" userLabel="PDF Container">
-                                <rect key="frame" x="0.0" y="44" width="768" height="960"/>
+                                <rect key="frame" x="0.0" y="44" width="768" height="916"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Tfu-Rc-bUv">
+                                <rect key="frame" x="0.0" y="960" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem title="More interesting custom button" id="C57-MS-ILk"/>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="bottomToolbar" destination="Tfu-Rc-bUv" id="8bz-LQ-Mlf"/>
                         <outlet property="pdfContainer" destination="ktv-GX-jxr" id="Q5v-w8-IHI"/>
                         <outlet property="toolbar" destination="wYB-5e-syK" id="COO-cD-5VW"/>
                     </connections>
@@ -41,6 +49,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MTViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="pdfContainer" candidateClass="UIView"/>
+                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
             </relationships>
         </class>
     </classes>

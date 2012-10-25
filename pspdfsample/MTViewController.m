@@ -13,6 +13,7 @@
 
 @property (retain, nonatomic) IBOutlet UIView *pdfContainer;
 @property (retain, nonatomic) IBOutlet UIToolbar *toolbar;
+@property (retain, nonatomic) IBOutlet UIToolbar *bottomToolbar;
 @end
 
 @implementation MTViewController
@@ -42,12 +43,23 @@
     pdfvc.tintColor = self.toolbar.tintColor;
     
     // So here I'd like to let the PDPDFViewController know that it should use the self.toolbar.
-    // Or as a delegate I could implement something like:
-    // - (UIToolbar*)pdfView:needsToolbarForXXXButtonItem:
     
+    NSMutableArray* items = [[self.bottomToolbar.items mutableCopy] autorelease];
+    
+    
+    [items addObject:pdfvc.bookmarkButtonItem];
+    [items addObject:pdfvc.annotationButtonItem];
+    [items addObject:pdfvc.outlineButtonItem];
+    
+    self.bottomToolbar.items = items;
+    
+    items = [self.toolbar.items mutableCopy];
+    [items addObject:pdfvc.searchButtonItem];
+    self.toolbar.items = items;
+
+
     [self.pdfContainer addSubview:pdfvc.view];
     [self addChildViewController:pdfvc];
-    
 }
 
 - (void)didReceiveMemoryWarning
@@ -59,6 +71,7 @@
 - (void)dealloc {
     [_pdfContainer release];
     [_toolbar release];
+    [_bottomToolbar release];
     [super dealloc];
 }
 @end
