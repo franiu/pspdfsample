@@ -16,7 +16,11 @@
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <barButtonItem title="Some other custom button" id="wyo-2J-Ypy"/>
+                                    <barButtonItem title="Swap docs" id="wyo-2J-Ypy">
+                                        <connections>
+                                            <action selector="swapDocs:" destination="2" id="eqr-G5-8Wg"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <view contentMode="scaleToFill" id="ktv-GX-jxr" userLabel="PDF Container">
@@ -48,6 +52,8 @@
         <class className="MTViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MTViewController.h"/>
             <relationships>
+                <relationship kind="action" name="swapDocs:"/>
+                <relationship kind="outlet" name="bottomToolbar" candidateClass="UIToolbar"/>
                 <relationship kind="outlet" name="pdfContainer" candidateClass="UIView"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
             </relationships>

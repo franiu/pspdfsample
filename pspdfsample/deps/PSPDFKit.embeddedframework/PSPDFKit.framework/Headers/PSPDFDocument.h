@@ -132,7 +132,7 @@ typedef NS_ENUM(NSInteger, PSPDFAnnotationSaveMode) {
 /// See kPSPDFMetadataKeyTitle and the following defines for keys that might be set.
 /// It's possible that there are keys that don't have a PSPDFKit define.
 /// Loop the dictionary to find them all.
-@property (nonatomic, strong, readonly) NSDictionary *metadata;
+@property (nonatomic, copy, readonly) NSDictionary *metadata;
 
 /// For caching, provide a *UNIQUE* uid here. (Or clear cache after content changes for same uid. Appending content is no problem)
 @property (nonatomic, copy) NSString *UID;
@@ -149,7 +149,7 @@ typedef NS_ENUM(NSInteger, PSPDFAnnotationSaveMode) {
  
  Defaults to the STRING constants PSPDFAnnotationTypeStringHighlight, PSPDFAnnotationTypeStringUnderline, PSPDFAnnotationTypeStringStrikeout, PSDFAnnotationTypeStringNote, PSPDFAnnotationTypeStringInk, PSPDFAnnotationTypeStringFreeText.
 */
-@property (nonatomic, strong) NSSet *editableAnnotationTypes;
+@property (nonatomic, copy) NSSet *editableAnnotationTypes;
 
 /// Can PDF annotations be embedded?
 /// Note: only evaluates the first file if multiple files are set.
@@ -437,7 +437,7 @@ extern NSString *const kPSPDFAnnotations;
 /// e.g. add an entry of [PSPDFAnnotationParser class] / [MyCustomAnnotationParser class] as key/value pair to use the custom subclass. (MyCustomAnnotationParser must be a subclass of PSPDFAnnotationParser)
 /// Throws an exception if the overriding class is not a subclass of the overridden class.
 /// Note: does not get serialized when saved to disk.
-@property (nonatomic, strong) NSDictionary *overrideClassNames;
+@property (nonatomic, copy) NSDictionary *overrideClassNames;
 
 /// Hook to modify/return a different document provider. Called each time a documentProvider is created (which is usually on first access, and cached afterwards)
 /// During PSPDFDocument lifetime, document providers might be created at any time, lazily, and destroyed when memory is low.

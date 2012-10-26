@@ -29,12 +29,8 @@ extern NSString *const PSPDFAnnotationChangedNotification;
 /**
  The simplest way to extend PSPDFAnnotationParser is to register a custom PSPDFAnnotationProvider.
  You can even remove the default PSPDFFileAnnotationProvider if you don't want file-based annotations.
-
- Your annotationProvider will be retained for the lifetime of PSPDFAnnotationParser.
  */
-- (void)addAnnotationProvider:(id<PSPDFAnnotationProvider>)annotationProvider;
-- (BOOL)removeAnnotationProvider:(id<PSPDFAnnotationProvider>)annotationProvider;
-@property (nonatomic, strong, readonly) NSArray *annotationProviders;
+@property (atomic, copy) NSArray *annotationProviders;
 
 /// Direct access to the file annotation provider, who default is the only registered annotationProvider.
 /// Will never be nil, but can be removed from the annotationProviders list.

@@ -168,17 +168,22 @@
 - (void)pdfViewController:(PSPDFViewController *)pdfController willUnloadPageView:(PSPDFPageView *)pageView;
 
 /**
-    Called before we show a controller modally or in a popover. Allows last minute modifications.\
+ Called before we show a controller modally or in a popover. Allows last minute modifications.\
  
-    The embeddedInController is either a UINavigationController, a UIPopoverController or nil. viewController is of type id because controller like UIPrntInteractionController are no subclasses of UIViewController.
+ The embeddedInController is either a UINavigationController, a UIPopoverController or nil. viewController is of type id because controller like UIPrntInteractionController are no subclasses of UIViewController.
  
-    Return NO to process the displaying manually.
+ Return NO to process the displaying manually.
  */
 - (BOOL)pdfViewController:(PSPDFViewController *)pdfController shouldShowController:(id)viewController embeddedInController:(id)controller animated:(BOOL)animated;
 
 /// Called after the controller has been fully displayed. iOS5 only. Isn't called for UIPopoverController's.
 - (void)pdfViewController:(PSPDFViewController *)pdfController didShowController:(id)viewController embeddedInController:(id)controller animated:(BOOL)animated;
 
+/// If you implement your own super-custom toolbar, handle updates for bar buttons. (e.g. with re-setting the items array)
+/// One popular example is PSPDFBookmarkBarButtonItem, which needs to change it's image after pressing the button.
+/// Ignore this if you're letting PSPDFKit manage your toolbar or if you're using a UIToolbar.
+/// If you implement this delegate, the default UIToolbar-update-code will not be called.
+- (void)pdfViewController:(PSPDFViewController *)pdfController requestsUpdateForBarButtonItem:(UIBarButtonItem *)barButtonItem animated:(BOOL)animated;
 
 /// Return NO to stop the HUD change event.
 - (BOOL)pdfViewController:(PSPDFViewController *)pdfController shouldShowHUD:(BOOL)animated;
