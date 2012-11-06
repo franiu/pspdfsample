@@ -18,10 +18,15 @@
 /// Designated initializer.
 - (id)initWithDocumentProvider:(PSPDFDocumentProvider *)documentProvider;
 
-@property (nonatomic, ps_weak) PSPDFDocumentProvider *documentProvider;
+/// Associated documentProvider.
+@property (nonatomic, weak) PSPDFDocumentProvider *documentProvider;
+
+/// Default annotation username. Defaults to nil.
+/// Written as the "T" (title/user) property of newly created annotations.
+@property (atomic, copy) NSString *defaultAnnotationUsername;
 
 /**
- performance optimized access
+ Performance optimized access.
 
  The default implementation is lazy loaded (and of course thread safe); hitting a dictionary cache first and blocks if no cache is found. After the first expensive call, this method is basically free. Ensure that you're using a similar cache if you replace this method with your own.
 */
@@ -31,13 +36,13 @@
  You can add your own annotations (like videos, links) here.
  Note: Usually it's a better idea to implement a custom AnnotationProvider, but this is kept for backwards compatibility.
 
- You will override any already set annotations, so if you want to mix in annotations from the pdf, use addAnnotations:forPage: instead.
+ You will override any already set annotations, so if you want to mix in annotations from the PDF, use addAnnotations:forPage: instead.
  Note: Setting nil as annotations will re-evaluate the pdf for annotations on the next access. Use an empty array if you want to clear annotations instead.
 */
 - (void)setAnnotations:(NSArray *)annotations forPage:(NSUInteger)page;
 
-/// Will add the annotation to the current annotation array.
-- (void)addAnnotations:(NSArray *)annotations forPage:(NSUInteger)page;
+/// Will add the annotation to the current annotation array. Will accept any annotations.
+- (BOOL)addAnnotations:(NSArray *)annotations forPage:(NSUInteger)page;
 
 /// Removes all annotation and re-evalutes the document on next access.
 - (void)clearCache;

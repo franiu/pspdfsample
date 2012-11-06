@@ -48,7 +48,7 @@
 @property (nonatomic, strong, readonly) UITextView *textView;
 
 /// Attached delegate.
-@property (nonatomic, ps_weak) id<PSPDFNoteAnnotationControllerDelegate> delegate;
+@property (nonatomic, weak) id<PSPDFNoteAnnotationControllerDelegate> delegate;
 
 @end
 

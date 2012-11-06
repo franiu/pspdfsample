@@ -24,11 +24,7 @@ typedef NS_ENUM(NSInteger, PSPDFHighlightAnnotationType) {
 /// Coordinates for highlight annotation.
 @property (nonatomic, strong) NSArray *rects;
 
-- (id)initWithAnnotationDictionary:(CGPDFDictionaryRef)annotDict inAnnotsArray:(CGPDFArrayRef)annotsArray;
-
-- (id)initWithType:(PSPDFHighlightAnnotationType)annotationType;
-
-- (void)setType:(PSPDFHighlightAnnotationType)annotationType withDefaultColor:(BOOL)useDefaultColor;
+- (id)initWithHighlightType:(PSPDFHighlightAnnotationType)annotationType;
 
 /// Converts "Highlight" into PSPDFHighlightAnnotationHighlight, etc
 + (PSPDFHighlightAnnotationType)highlightTypeFromTypeString:(NSString *)typeString;

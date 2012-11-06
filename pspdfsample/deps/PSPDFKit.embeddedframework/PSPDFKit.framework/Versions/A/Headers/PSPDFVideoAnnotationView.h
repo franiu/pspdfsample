@@ -34,6 +34,9 @@
 /// Cover view is only set if cover option is set.
 @property (nonatomic, strong) PSPDFVideoAnnotationCoverView *coverView;
 
+/// Video has a zIndex of 10.
+@property (nonatomic, assign) NSUInteger zIndex;
+
 @end
 
 /// If the cover option is set, this is showed until the play button is pressed.

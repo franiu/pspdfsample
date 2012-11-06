@@ -9,7 +9,7 @@
 
 @interface PSPDFBookmarkBarButtonItem : PSPDFBarButtonItem
 
-/// Defaults to YES. iOS5+ only. Will be ignored if tapChangesBookmarkStatus is NO.
+/// Defaults to YES. Will be ignored if tapChangesBookmarkStatus is NO.
 @property (nonatomic, assign) BOOL showBookmarkControllerOnLongPress;
 
 /// Defauls to YES. NO will show the PSPDFBookmarkViewController instantly.

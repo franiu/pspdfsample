@@ -15,11 +15,12 @@
  Ensure your passphrase/salt are also protected within the binary, or at least obfuscated.
  
  Encryption marginally slows down rendering, since everything is decrypted on the fly.
- This class needs iOS5 or later. Only available in PSPDFKit Annotate or Source.
+ Only available in PSPDFKit Annotate or Source.
  */
 @interface PSPDFAESCryptoDataProvider : NSObject
 
 /// Designated initializer with the passphrase and salt.
+/// URL must be a file-based URL. 
 - (id)initWithURL:(NSURL *)URL passphrase:(NSString *)passphrase salt:(NSString *)salt;
 
 /// PSPDFCryptoDataProvider will be retained as long as you retain this.

@@ -7,6 +7,7 @@
 
 #import "PSPDFKitGlobal.h"
 
+@class PSPDFStream;
 
 /// Get string from CGPDFDictionary.
 extern inline NSString *PSPDFDictionaryGetString(CGPDFDictionaryRef pdfDict, NSString *key);
@@ -14,8 +15,11 @@ extern inline NSString *PSPDFDictionaryGetString(CGPDFDictionaryRef pdfDict, NSS
 /// Get string from CGPDFArray.
 extern inline NSString *PSPDFArrayGetString(CGPDFArrayRef pdfArray, size_t index);
 
-/// Get the PDF object at the specific PDF path.
+/// Get the PDF object at the specific PDF path. Can access arrays or streams with #0 syntax.
 extern id PSPDFDictionaryGetObjectForPath(CGPDFDictionaryRef pdfDict, NSString *keyPath);
+
+/// Like PSPDFDictionaryGetObjectForPath, but type safe.
+extern PSPDFStream *PSPDFDictionaryGetStreamForPath(CGPDFDictionaryRef pdfDict, NSString *keyPath);
 
 /// Convert a single PDF object to the corresponding CoreFoundation-object.
 extern id PSPDFConvertPDFObject(CGPDFObjectRef objectRef);
@@ -81,6 +85,8 @@ inline CGRect PSPDFNormalizeRect(CGRect rect);
 
 /// Builds a rect out of two CGPoints.
 inline CGRect PSPDFCGRectFromPoints(CGPoint p1, CGPoint p2);
+
+#define PSPDFDegreesToRadians(degrees) (degrees * M_PI / 180)
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 

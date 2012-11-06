@@ -5,13 +5,13 @@
 //  Copyright 2011-2012 Peter Steinberger. All rights reserved.
 //
 
-// PSPDFKit is compatible with iOS 4.3+, but needs a modern Xcode.
+// PSPDFKit is compatible with iOS 5.0+, but needs a modern Xcode.
 #if !defined(__clang__) || __clang_major__ < 4
-#error This project must be compiled with ARC (Xcode 4.4+ with LLVM 4+)
+#error This project must be compiled with ARC (Xcode 4.5+ with LLVM 4+)
 #endif
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_4_3
-#error PSPDFKit supports iOS 4.3 upwards.
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_5_0
+#error PSPDFKit supports iOS 5.0 upwards.
 #endif
 
 #import <UIKit/UIKit.h>
@@ -90,7 +90,7 @@
 // labels
 #import "PSPDFLabelParser.h"
 
-// toolbar (subclass button subclasses to change image)
+// toolbar (subclass buttons to change image)
 #import "PSPDFBarButtonItem.h"
 #import "PSPDFCloseBarButtonItem.h"
 #import "PSPDFEmailBarButtonItem.h"

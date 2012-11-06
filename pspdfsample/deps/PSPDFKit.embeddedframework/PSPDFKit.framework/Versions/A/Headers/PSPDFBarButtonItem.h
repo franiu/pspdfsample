@@ -29,7 +29,7 @@
 /// Init with pdfController reference (later calls presentModalViewController:embeddedInNavigationController:withCloseButton:animated:)
 - (id)initWithPDFViewController:(PSPDFViewController *)pdfViewController;
 
-/// PDF controller.
+/// PDF controller. Not weak, can be KVO observed.
 @property (nonatomic, unsafe_unretained) PSPDFViewController *pdfController;
 
 /// Implement customView, image or systemItem in your subclass (via overriding the method)
@@ -67,7 +67,8 @@
 - (BOOL)isLongPressActionActive;
 
 /// Return a UIPopoverController if you presented a popover or a "parent" object if you indirectly presented a popover controller
-- (id)presentAnimated:(BOOL)animated sender:(PSPDFBarButtonItem *)sender;
+/// Sender can be either a UIBarButtonItem or a generic view.
+- (id)presentAnimated:(BOOL)animated sender:(id)sender;
 - (void)dismissAnimated:(BOOL)animated;
 - (void)didDismiss;
 

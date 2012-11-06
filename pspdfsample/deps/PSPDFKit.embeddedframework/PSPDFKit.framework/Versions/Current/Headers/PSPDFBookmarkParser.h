@@ -34,7 +34,7 @@ extern NSString *const kPSPDFBookmarksChangedNotification;
 @property (nonatomic, copy) NSArray *bookmarks;
 
 /// Associated document.
-@property (nonatomic, ps_weak) PSPDFDocument *document;
+@property (nonatomic, weak) PSPDFDocument *document;
 
 /// Convenience methods. Will return NO if page is invalid or bookmark doesn't exist.
 /// If you manually add bookmarks, you might need to call createToolbarAnimated to update.
@@ -63,11 +63,11 @@ extern NSString *const kPSPDFBookmarksChangedNotification;
 - (NSArray *)loadBookmarksWithError:(NSError **)error;
 
 /**
-    Saves the bookmark into a plist file at bookmarkPath.
-    Most likely isn't called on the main thread, but do not block.
+ Saves the bookmark into a plist file at bookmarkPath.
+ Most likely isn't called on the main thread, but do not block.
 
-    We go the tricky way to make a plist so it's human-readable.
-    Note that PSPDFDocument confirms to NSCopying, so streaming into a keyed archiver would work too.
+ We go the tricky way to make a plist so it's human-readable.
+ Note that PSPDFDocument confirms to NSCopying, so streaming into a keyed archiver would work too.
 */
 - (BOOL)saveBookmarksWithError:(NSError **)error;
 

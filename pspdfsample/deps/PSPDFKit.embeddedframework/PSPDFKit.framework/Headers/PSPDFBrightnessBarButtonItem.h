@@ -7,7 +7,7 @@
 
 #import "PSPDFBarButtonItem.h"
 
-/// Controls the system brightness. iOS5 and later.
+/// Controls the system brightness.
 @interface PSPDFBrightnessBarButtonItem : PSPDFBarButtonItem
 
 @end

@@ -49,7 +49,10 @@
     NSURL* docUrl = [[NSBundle mainBundle] URLForResource:_documentNames[_documentIndex] withExtension:@"pdf"];
     PSPDFDocument* pdfDocument = [PSPDFDocument PDFDocumentWithURL:docUrl];
     pdfDocument.annotationSaveMode = PSPDFAnnotationSaveModeExternalFile;
-    
+    NSMutableSet* annotationTypes = [NSMutableSet set];
+    [annotationTypes addObject:PSPDFAnnotationTypeStringInk];
+    pdfDocument.editableAnnotationTypes = annotationTypes;
+
     if ( self.pdfvc )
     {
         // Remove the old view controller
@@ -101,6 +104,7 @@
     
     [items addObject:self.pdfvc.bookmarkButtonItem];
     self.pdfvc.bookmarkButtonItem.tag = 1;
+    self.pdfvc.bookmarkButtonItem.tapChangesBookmarkStatus = NO;
     [items addObject:self.pdfvc.annotationButtonItem];
     self.pdfvc.annotationButtonItem.tag = 1;
     [items addObject:self.pdfvc.outlineButtonItem];

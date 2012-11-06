@@ -50,6 +50,9 @@ typedef NS_ENUM(NSUInteger, PSPDFEmailSendOptions) {
 // finally shows the email controller.
 - (id)showEmailControllerWithSendOptions:(PSPDFEmailSendOptions)sendOptions animated:(BOOL)animated;
 
+// Hook to customize the fileName generation.
+- (NSString *)fileNameForPage:(NSUInteger)pageIndex sendOptions:(PSPDFEmailSendOptions)sendOptions;
+
 // action sheet used internally if there are different options.
 @property (nonatomic, strong) UIActionSheet *actionSheet;
 

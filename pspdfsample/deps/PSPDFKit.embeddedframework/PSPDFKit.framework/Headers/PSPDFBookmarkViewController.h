@@ -22,7 +22,7 @@
 @end
 
 /**
- Show list of bookmarks for the current document and allows editing/reordering of the bookmarks. iOS5+.
+ Show list of bookmarks for the current document and allows editing/reordering of the bookmarks.
  */
 @interface PSPDFBookmarkViewController : UITableViewController <PSPDFStyleable>
 
@@ -33,7 +33,7 @@
 @property (nonatomic, strong) PSPDFDocument *document;
 
 /// Delegate.
-@property (nonatomic, ps_weak) id<PSPDFBookmarkViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<PSPDFBookmarkViewControllerDelegate> delegate;
 
 // PSPDFStyleable attribute.
 @property (nonatomic, assign) BOOL isInPopover;

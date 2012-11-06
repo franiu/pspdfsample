@@ -22,14 +22,12 @@ typedef NS_ENUM(NSInteger, PSPDFLinkAnnotationType) {
 };
 
 /**
-    The PSPDFLinkAnnotation represents both classic PDF page/document/web links,
-    and more types not supported by other PDF readers (video, audio, image, etc)
+ The PSPDFLinkAnnotation represents both classic PDF page/document/web links, and more types not supported by other PDF readers (video, audio, image, etc)
  
-    PSPDFKit will automatically figure out the type for PDF link annotations loaded from a document, based on the file type. ("mpg" belongs to PSPDFLinkAnnotationVideo; a YouTube-URL to PSPDFLinkAnnotationYouTube, etc)
+ PSPDFKit will automatically figure out the type for PDF link annotations loaded from a document, based on the file type. ("mpg" belongs to PSPDFLinkAnnotationVideo; a YouTube-URL to PSPDFLinkAnnotationYouTube, etc)
  
-    If you create a PSPDFLinkAnnotation at runtime, be sure to set the correct type and use the URL parameter for your link.
- 
-    boundingBox defines the frame, in PDF space coordinates.
+ If you create a PSPDFLinkAnnotation at runtime, be sure to set the correct type and use the URL parameter for your link.
+ BoundingBox defines the frame, in PDF space coordinates.
  */
 @interface PSPDFLinkAnnotation : PSPDFAnnotation
 
@@ -46,7 +44,8 @@ typedef NS_ENUM(NSInteger, PSPDFLinkAnnotationType) {
 /// Will be YES if this is a regular link or a multimedia link annotation that should be displayed as link. (e.g. if isPopover/isModal is set to yes)
 @property (nonatomic, assign, readonly) BOOL showAsLinkView;
 
-/// link if target is a page if siteLinkTarget is nil.
+/// Link if target is a page if siteLinkTarget is nil.
+/// pageLinkTarget starts at page index 1.
 @property (nonatomic, assign) NSUInteger pageLinkTarget;
 
 /// Returns YES if this link is specially handled by PSPDFKit.
@@ -54,25 +53,23 @@ typedef NS_ENUM(NSInteger, PSPDFLinkAnnotationType) {
 @property (nonatomic, assign, readonly, getter=isMultimediaExtension) BOOL multimediaExtension;
 
 /** 
-    Link if target is a website.
+ Link if target is a website.
  
-    If you createa  PSPDFLinkAnnotation in code, setting the siteLinkTarget will invoke the parsing at the time you're adding the annotation to the PSPDFAnnotationParser.
+ If you create a PSPDFLinkAnnotation in code, setting the siteLinkTarget will invoke the parsing at the time you're adding the annotation to the PSPDFAnnotationParser.
  
-    After parsing, the linkType will be set and the generate URL will be set.
+ After parsing, the linkType will be set and the generate URL will be set.
+ If you don't want this processing, directly set the URL and the linkType and don't use siteLinkTarget.
  
-    If you don't want this processing, directly set the URL and the linkType and don't use siteLinkTarget.
+ An example for a siteLinkTarget to an image annotation would be:
+ PSPDFLinkAnnotation *annotation = [[PSPDFLinkAnnotation alloc] initWithLinkAnnotationType:PSPDFLinkAnnotationImage];
+ annotation.siteLinkTarget = [NSString stringWithFormat:@"pspdfkit://[contentMode=%d]localhost/%@/exampleimage.jpg", UIViewContentModeScaleAspectFill, [[NSBundle mainBundle] bundlePath]];
+ // annotation frame is in PDF coordinate space. Use pageRect for the full page.
+ annotation.boundingBox = [self.document pageInfoForPage:0].pageRect;
+ // annotation.page/document is auomatically set.
+ [self.document.annotationParser addAnnotations:@[annotation] forPage:0];
  
-    An example for a siteLinkTarget to an image annotation would be:
-    PSPDFLinkAnnotation *annotation = [[PSPDFLinkAnnotation alloc] initWithLinkAnnotationType:PSPDFLinkAnnotationImage];
-    annotation.siteLinkTarget = [NSString stringWithFormat:@"pspdfkit://[contentMode=%d]localhost/%@/exampleimage.jpg", UIViewContentModeScaleAspectFill, [[NSBundle mainBundle] bundlePath]];
-    // annotation frame is in PDF coordinate space. Use pageRect for the full page.
-    annotation.boundingBox = [self.document pageInfoForPage:0].pageRect;
-    // annotation.page/document is auomatically set.
-    [self.document.annotationParser addAnnotations:@[annotation] forPage:0];
- 
-    Note: Do not add NSURL-encoded strings to siteLinkTarget.( no %20 - real space!)
-    If you convert a path fron NSURL, use [url path] and NOT [url description].
-    (Actually, never use url description, except when you're debugging)
+ Note: Do not add NSURL-encoded strings to siteLinkTarget.(no %20 - real space!)
+ If you convert a path fron NSURL, use [URL path] and NOT [url description]. (Actually, never use URL description, except when you're debugging)
 */
 @property (nonatomic, strong) NSString *siteLinkTarget;
 

@@ -19,4 +19,7 @@
 /// Saves the attached link annotation.
 @property (nonatomic, strong, readonly) PSPDFLinkAnnotation *linkAnnotation;
 
+/// Defaults to a zIndex of 1.
+@property (nonatomic, assign) NSUInteger zIndex;
+
 @end

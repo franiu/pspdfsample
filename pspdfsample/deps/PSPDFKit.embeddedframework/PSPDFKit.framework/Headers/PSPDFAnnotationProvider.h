@@ -31,9 +31,12 @@
  */
 - (NSArray *)annotationsForPage:(NSUInteger)page;
 
+@optional
+
 /// Return YES if annotationsForPage: is done preparing the cache, else NO.
 /// You NEED to return YES on this after annotationsForPage: has been accessed.
 /// PSPDFKit will preload/access annotationsForPage: in a background thread and then re-access it on the main thread.
+/// Defaults to YES if not implemented.
 - (BOOL)hasLoadedAnnotationsForPage:(NSUInteger)page;
 
 /**
@@ -44,7 +47,10 @@
  */
 - (Class)annotationViewClassForAnnotation:(PSPDFAnnotation *)annotation;
 
-@optional
+/**
+ Handle adding annotations. A provider can decided that he doesn't want to add this annotation, in that case either don't implement addAnnotations at all or return NO. PSPDFAnnotationParser will query all registered annotationProviders until one returns YES on addAnnotations.
+ */
+- (BOOL)addAnnotations:(NSArray *)annotations forPage:(NSUInteger)page;
 
 /// PSPDFKit requests a save. Can be ignored if you're instantly persisting.
 /// Event is e.g. fired before the app goes into background, or when PSPDFViewController is dismissed.
@@ -55,25 +61,15 @@
 - (NSDictionary *)dirtyAnnotations;
 
 /**
- Annotation is about to be changed. Return NO to disallow.
- To block he annotation edit menu completely, set the isEditable property to NO.
- 
+ Callback if an annotation has been changed by PSPDFKit.
  This method will be called on ALL annotations, not just the ones that you provided.
- So make sure you return YES/ignore if the annotation is not from you.
- */
-// TODO
-//- (BOOL)shouldChangeAnnotation:(PSPDFAnnotation *)annotation;
-
-/**
- Following annotation has been changed.
  
- This method will be called on ALL annotations, not just the ones that you provided.
- So make sure you return YES/ignore if the annotation is not from you.
+ Also be sure to check if originalAnnotation might has been deleted because of a change operation (keyPaths will not include deleted, unless the *only* operation that has been performed was a deleted.)
  */
-- (void)didChangeAnnotation:(PSPDFAnnotation *)annotation keyPaths:(NSArray *)keyPaths;
+- (void)didChangeAnnotation:(PSPDFAnnotation *)annotation originalAnnotation:(PSPDFAnnotation *)originalAnnotation keyPaths:(NSArray *)keyPaths options:(NSDictionary *)options;
 
 /// Provides a back-channel to PSPDFKit if you need to change annotations on the fly. (e.g. new changes from your server are coming in)
-@property (nonatomic, ps_weak) id <PSPDFAnnotationProviderChangeNotifier> providerDelegate;
+@property (nonatomic, weak) id <PSPDFAnnotationProviderChangeNotifier> providerDelegate;
 
 @end
 
@@ -91,7 +87,7 @@
  Note: Don't dynamically change the value that isOverlay returns, else you'll confuse the updater.
  If you delete annotations, simply set the isDeleted-flag to YES.
   */
-- (void)updateAnnotations:(NSArray *)annotations animated:(BOOL)animated;
+- (void)updateAnnotations:(NSArray *)annotations originalAnnotations:(NSArray *)originalAnnotations animated:(BOOL)animated;
 
 /// Query to get the document provider if this annotation provider is attached to the PSPDFAnnotationParser.
 - (PSPDFDocumentProvider *)parentDocumentProvider;

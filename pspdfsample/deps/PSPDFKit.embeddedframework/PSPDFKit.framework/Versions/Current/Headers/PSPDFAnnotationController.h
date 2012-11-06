@@ -35,7 +35,7 @@
 
 
 // Attached PDFController
-@property (nonatomic, ps_weak) PSPDFViewController *pdfController;
+@property (nonatomic, weak) PSPDFViewController *pdfController;
 
 @end
 

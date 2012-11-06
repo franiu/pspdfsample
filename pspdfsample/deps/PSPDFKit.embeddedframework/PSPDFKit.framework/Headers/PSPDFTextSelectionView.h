@@ -6,12 +6,13 @@
 //
 
 #import "PSPDFKitGlobal.h"
+#import "PSPDFSelectionBorderView.h"
 
-@class PSPDFTextParser, PSPDFWord, PSPDFPageView, PSPDFHighlightAnnotation, PSPDFLinkAnnotation, PSPDFAnnotation, PSPDFNoteAnnotation, PSPDFLoupeView;
+@class PSPDFTextParser, PSPDFWord, PSPDFPageView, PSPDFHighlightAnnotation, PSPDFLinkAnnotation, PSPDFAnnotation, PSPDFNoteAnnotation, PSPDFLoupeView, PSPDFLongPressGestureRecognizer;
 
 /// Handles the text and annotation selection.
 /// Only available in PSPDFKit Annotate.
-@interface PSPDFTextSelectionView : UIView
+@interface PSPDFTextSelectionView : UIView <PSPDFSelectionBorderViewDelegate>
 
 /// Currently selected glyphs.
 @property (nonatomic, strong) NSArray *selectedGlyphs;
@@ -29,7 +30,7 @@
 @property (nonatomic, strong) PSPDFLoupeView *loupeView;
 
 /// Associated PSPDFPageView.
-@property (nonatomic, ps_weak) PSPDFPageView *pageView;
+@property (nonatomic, weak) PSPDFPageView *pageView;
 
 /// Updates the UIMenuController if there is a selection.
 - (void)updateMenu;
@@ -40,9 +41,10 @@
 
 // gesture handling
 - (void)longPress:(UILongPressGestureRecognizer *)recognizer;
-- (BOOL)shouldHandleLongPressWithRecognizer:(UILongPressGestureRecognizer *)recognizer;
+- (BOOL)pressRecognizerShouldHandlePressImmediately:(PSPDFLongPressGestureRecognizer *)recognizer;
 
-- (void)updateSelectionHandleSize;
+/// Update the selection.
+- (void)updateSelection;
 
 // debugging
 - (void)showTextFlowData:(BOOL)show animated:(BOOL)animated;

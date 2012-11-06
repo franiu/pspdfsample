@@ -7,14 +7,13 @@
 
 #import "PSPDFKitGlobal.h"
 
-@class PSPDFDocument;
+@class PSPDFDocumentProvider;
 
-/// Represents a PDF page. Managed within PSPDFDocument.
-/// With NSCopying, PSPDFDocument is not serialized.
+/// Represents PDF page data. Managed within PSPDFDocumentProvider.
 @interface PSPDFPageInfo : NSObject <NSCopying, NSCoding>
 
 /// Init object with page and rotation.
-- (id)initWithPage:(NSUInteger)page rect:(CGRect)pageRect rotation:(NSInteger)rotation document:(PSPDFDocument *)document;
+- (id)initWithPage:(NSUInteger)page rect:(CGRect)pageRect rotation:(NSInteger)rotation documentProvider:(PSPDFDocumentProvider *)documentProvider;
 
 /// Saved aspect ratio of current page.
 @property (nonatomic, assign, readonly) CGRect pageRect;
@@ -33,7 +32,7 @@
 /// Referenced page.
 @property (nonatomic, assign, readonly) NSUInteger page;
 
-/// Referenced document, weak.
-@property (nonatomic, ps_weak, readonly) PSPDFDocument *document;
+/// Referenced document provider, weak.
+@property (nonatomic, weak, readonly) PSPDFDocumentProvider *documentProvider;
 
 @end

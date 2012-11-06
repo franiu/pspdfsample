@@ -24,7 +24,7 @@
 + (CGFloat)heightForCellWithOutlineElement:(PSPDFOutlineElement *)outlineElement constrainedToSize:(CGSize)constraintSize outlineIntentLeftOffset:(CGFloat)leftOffset outlineIntentMultiplicator:(CGFloat)multiplicator;
 
 /// Delegate for cell button.
-@property (nonatomic, ps_weak) id<PSPDFOutlineCellDelegate> delegate;
+@property (nonatomic, weak) id<PSPDFOutlineCellDelegate> delegate;
 
 /// Single outline element.
 @property (nonatomic, strong) PSPDFOutlineElement *outlineElement;
