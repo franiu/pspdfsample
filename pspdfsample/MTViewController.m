@@ -49,9 +49,9 @@
     NSURL* docUrl = [[NSBundle mainBundle] URLForResource:_documentNames[_documentIndex] withExtension:@"pdf"];
     PSPDFDocument* pdfDocument = [PSPDFDocument PDFDocumentWithURL:docUrl];
     pdfDocument.annotationSaveMode = PSPDFAnnotationSaveModeExternalFile;
-    NSMutableSet* annotationTypes = [NSMutableSet set];
-    [annotationTypes addObject:PSPDFAnnotationTypeStringInk];
-    pdfDocument.editableAnnotationTypes = annotationTypes;
+//    NSMutableSet* annotationTypes = [NSMutableSet set];
+//    [annotationTypes addObject:PSPDFAnnotationTypeStringInk];
+//    pdfDocument.editableAnnotationTypes = annotationTypes;
 
     if ( self.pdfvc )
     {
