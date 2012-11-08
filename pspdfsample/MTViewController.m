@@ -51,7 +51,8 @@
 
 - (void)action:(PSPDFBarButtonItem *)sender
 {
-    
+    [self.delegate barButtonItemActionInvoked:self];
+    [super action:sender];
 }
 
 @end
@@ -183,7 +184,7 @@
     // Setup subclassing of the bar button items
     self.pdfvc.overrideClassNames = @{
     // TODO: UNCOMMENT THIS
-    //(id)[PSPDFBookmarkBarButtonItem class] : [DVPDFBookmarkBarButtonItem class],
+    (id)[PSPDFBookmarkBarButtonItem class] : [DVPDFBookmarkBarButtonItem class],
     (id)[PSPDFAnnotationBarButtonItem class] : [DVPDFAnnotationBarButtonItem class],
     (id)[PSPDFOutlineBarButtonItem class] : [DVPDFTOCBarButtonItem class],
     (id)[PSPDFSearchBarButtonItem class] : [DVPDFSearchBarButtonItem class] };
@@ -199,13 +200,22 @@
     [items addObject:self.pdfvc.bookmarkButtonItem];
     self.pdfvc.bookmarkButtonItem.tag = 1;
     // TODO: AND THIS
-    //((DVPDFBookmarkBarButtonItem*)self.pdfvc.bookmarkButtonItem).delegate = self;
+    ((DVPDFBookmarkBarButtonItem*)self.pdfvc.bookmarkButtonItem).delegate = self;
     self.pdfvc.bookmarkButtonItem.tapChangesBookmarkStatus = NO;
     [items addObject:self.pdfvc.annotationButtonItem];
     self.pdfvc.annotationButtonItem.tag = 1;
     ((DVPDFAnnotationBarButtonItem*)self.pdfvc.annotationButtonItem).delegate = self;
     [items addObject:self.pdfvc.outlineButtonItem];
     self.pdfvc.outlineButtonItem.tag = 1;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // Update the outline button in the background
+        if ( ![self.pdfvc.outlineButtonItem isAvailableBlocking] )
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.pdfvc.outlineButtonItem.enabled = NO;
+            });
+        }
+    });
     ((DVPDFTOCBarButtonItem*)self.pdfvc.outlineButtonItem).delegate = self;
     [items addObject:self.pdfvc.viewModeButtonItem];
     self.pdfvc.viewModeButtonItem.tag = 1;
