@@ -48,14 +48,14 @@ extern NSString *kPSPDFAnnotationAutoFetchTypes;
 
 @interface PSPDFRenderJob : NSObject
 
-@property (nonatomic, readonly) NSUInteger page;
-@property (nonatomic, readonly) PSPDFDocument *document;
-@property (nonatomic, readonly) CGSize fullSize;
-@property (nonatomic, readonly) CGRect clipRect;
-@property (nonatomic, readonly) float zoomScale;
-@property (nonatomic, readonly) NSArray *annotations;
-@property (nonatomic, strong, readonly) NSDictionary *options;
-@property (nonatomic, weak) id<PSPDFRenderDelegate> delegate;
-@property (nonatomic, strong) UIImage *renderedImage;
+@property (nonatomic, assign, readonly) NSUInteger page;
+@property (nonatomic, weak, readonly) PSPDFDocument *document;
+@property (nonatomic, assign, readonly) CGSize fullSize;
+@property (nonatomic, assign, readonly) CGRect clipRect;
+@property (nonatomic, assign, readonly) float zoomScale;
+@property (nonatomic, copy, readonly) NSArray *annotations;
+@property (atomic, copy) NSDictionary *options;
+@property (atomic, weak) id<PSPDFRenderDelegate> delegate;
+@property (atomic, strong) UIImage *renderedImage;
 
 @end

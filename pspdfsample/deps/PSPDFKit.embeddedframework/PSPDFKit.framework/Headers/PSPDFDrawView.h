@@ -13,15 +13,12 @@
 /// Delegate when drawing is finished.
 @protocol PSPDFDrawViewDelegate <NSObject>
 
-- (void)drawViewDidFinish:(PSPDFDrawView *)drawView;
-
 @optional
 
 - (void)drawViewDidBeginDrawing:(PSPDFDrawView *)drawView;
 - (void)drawView:(PSPDFDrawView *)drawView didChange:(PSPDFDrawAction *)drawAction;
 
 @end
-
 
 /// Class that allows drawing on top of a PSPDFPageView.
 @interface PSPDFDrawView : UIView
@@ -37,14 +34,13 @@
 @property (nonatomic, strong) UIPopoverController *activePopover;
 
 /// Draw Delegate.
-@property (nonatomic, unsafe_unretained) id<PSPDFDrawViewDelegate> delegate;
+@property (atomic, weak) id<PSPDFDrawViewDelegate> delegate;
 
 - (void)loadImage:(UIImage *)image;
 - (BOOL)canUndo;
 - (BOOL)undo;
 - (BOOL)canRedo;
 - (BOOL)redo;
-- (void)done;
 
 @end
 

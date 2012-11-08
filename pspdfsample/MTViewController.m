@@ -9,9 +9,87 @@
 #import "MTViewController.h"
 #import <PSPDFKit/PSPDFKit.h>
 
+/**
+ * Subclassing button items
+ */
+@protocol DVPDFBarButtonItemDelegate <NSObject>
+
+@required
+-(void)barButtonItemActionInvoked:(PSPDFBarButtonItem*)item;
+
+@end
+
+@interface DVPDFBookmarkBarButtonItem : PSPDFBookmarkBarButtonItem
+
+- (void)action:(PSPDFBarButtonItem *)sender;
+@property (nonatomic, assign) id<DVPDFBarButtonItemDelegate> delegate;
+
+@end
+
+@interface DVPDFAnnotationBarButtonItem : PSPDFAnnotationBarButtonItem
+
+- (void)action:(PSPDFBarButtonItem *)sender;
+@property (nonatomic, assign) id<DVPDFBarButtonItemDelegate> delegate;
+
+@end
+
+@interface DVPDFTOCBarButtonItem : PSPDFOutlineBarButtonItem
+
+- (void)action:(PSPDFBarButtonItem *)sender;
+@property (nonatomic, assign) id<DVPDFBarButtonItemDelegate> delegate;
+
+@end
+
+@interface DVPDFSearchBarButtonItem : PSPDFSearchBarButtonItem
+
+- (void)action:(PSPDFBarButtonItem *)sender;
+@property (nonatomic, assign) id<DVPDFBarButtonItemDelegate> delegate;
+
+@end
+
+@implementation DVPDFBookmarkBarButtonItem
+
+- (void)action:(PSPDFBarButtonItem *)sender
+{
+    
+}
+
+@end
+
+@implementation DVPDFAnnotationBarButtonItem : PSPDFAnnotationBarButtonItem
+
+- (void)action:(PSPDFBarButtonItem *)sender
+{
+    [self.delegate barButtonItemActionInvoked:self];
+    [super action:sender];
+}
+
+@end
+
+@implementation DVPDFTOCBarButtonItem : PSPDFOutlineBarButtonItem
+
+- (void)action:(PSPDFBarButtonItem *)sender
+{
+    [self.delegate barButtonItemActionInvoked:self];
+    [super action:sender];
+}
+
+@end
+
+@implementation DVPDFSearchBarButtonItem : PSPDFSearchBarButtonItem
+
+- (void)action:(PSPDFBarButtonItem *)sender
+{
+    [self.delegate barButtonItemActionInvoked:self];
+    [super action:sender];
+}
+
+@end
+
+
 #define DOCS_COUNT 2
 
-@interface MTViewController () <PSPDFViewControllerDelegate>
+@interface MTViewController () <PSPDFViewControllerDelegate, DVPDFBarButtonItemDelegate>
 {
     unsigned int _documentIndex;
     NSString* _documentNames[DOCS_COUNT];
@@ -35,6 +113,18 @@
     return self;
 }
 
+#pragma mark - DVPDFBarButtonItemDelegate
+
+- (void)dismissPopovers
+{
+    // Dismiss all the popovers here
+}
+
+- (void)barButtonItemActionInvoked:(PSPDFBarButtonItem *)item
+{
+    // Hide all popovers
+    [self dismissPopovers];
+}
 
 - (IBAction)swapDocs:(id)sender {
     [self toggleDocuments];
@@ -49,9 +139,6 @@
     NSURL* docUrl = [[NSBundle mainBundle] URLForResource:_documentNames[_documentIndex] withExtension:@"pdf"];
     PSPDFDocument* pdfDocument = [PSPDFDocument PDFDocumentWithURL:docUrl];
     pdfDocument.annotationSaveMode = PSPDFAnnotationSaveModeExternalFile;
-//    NSMutableSet* annotationTypes = [NSMutableSet set];
-//    [annotationTypes addObject:PSPDFAnnotationTypeStringInk];
-//    pdfDocument.editableAnnotationTypes = annotationTypes;
 
     if ( self.pdfvc )
     {
@@ -93,22 +180,33 @@
     self.pdfvc.view.frame = frame;
     self.pdfvc.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     
+    // Setup subclassing of the bar button items
+    self.pdfvc.overrideClassNames = @{
+    // TODO: UNCOMMENT THIS
+    //(id)[PSPDFBookmarkBarButtonItem class] : [DVPDFBookmarkBarButtonItem class],
+    (id)[PSPDFAnnotationBarButtonItem class] : [DVPDFAnnotationBarButtonItem class],
+    (id)[PSPDFOutlineBarButtonItem class] : [DVPDFTOCBarButtonItem class],
+    (id)[PSPDFSearchBarButtonItem class] : [DVPDFSearchBarButtonItem class] };
+    
     self.pdfvc.toolbarEnabled = YES;
     self.pdfvc.HUDViewMode = PSPDFHUDViewAutomatic;
     self.pdfvc.delegate = self;
     self.pdfvc.tintColor = self.toolbar.tintColor;
-    
-    // So here I'd like to let the PDPDFViewController know that it should use the self.toolbar.
+    self.pdfvc.pageMode = PSPDFPageModeSingle;
     
     NSMutableArray* items = [[self.bottomToolbar.items mutableCopy] autorelease];
     
     [items addObject:self.pdfvc.bookmarkButtonItem];
     self.pdfvc.bookmarkButtonItem.tag = 1;
+    // TODO: AND THIS
+    //((DVPDFBookmarkBarButtonItem*)self.pdfvc.bookmarkButtonItem).delegate = self;
     self.pdfvc.bookmarkButtonItem.tapChangesBookmarkStatus = NO;
     [items addObject:self.pdfvc.annotationButtonItem];
     self.pdfvc.annotationButtonItem.tag = 1;
+    ((DVPDFAnnotationBarButtonItem*)self.pdfvc.annotationButtonItem).delegate = self;
     [items addObject:self.pdfvc.outlineButtonItem];
     self.pdfvc.outlineButtonItem.tag = 1;
+    ((DVPDFTOCBarButtonItem*)self.pdfvc.outlineButtonItem).delegate = self;
     [items addObject:self.pdfvc.viewModeButtonItem];
     self.pdfvc.viewModeButtonItem.tag = 1;
     
@@ -117,6 +215,7 @@
     items = [[self.toolbar.items mutableCopy] autorelease];
     [items addObject:self.pdfvc.searchButtonItem];
     self.pdfvc.searchButtonItem.tag = 1;
+    ((DVPDFSearchBarButtonItem*)self.pdfvc.searchButtonItem).delegate = self;
     self.toolbar.items = items;
     
     

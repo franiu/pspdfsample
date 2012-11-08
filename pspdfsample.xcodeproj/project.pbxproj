@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9E25AD52164B4A5000B4E84A /* PSPDFKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E25AD4B164B4A5000B4E84A /* PSPDFKit.framework */; };
+		9E25AD53164B4A5000B4E84A /* ACKNOWLEDGEMENTS in Resources */ = {isa = PBXBuildFile; fileRef = 9E25AD4D164B4A5000B4E84A /* ACKNOWLEDGEMENTS */; };
+		9E25AD54164B4A5000B4E84A /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 9E25AD4E164B4A5000B4E84A /* LICENSE */; };
+		9E25AD55164B4A5000B4E84A /* PSPDFKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9E25AD4F164B4A5000B4E84A /* PSPDFKit.bundle */; };
+		9E25AD56164B4A5000B4E84A /* PSPDFKit.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 9E25AD50164B4A5000B4E84A /* PSPDFKit.xcconfig */; };
+		9E25AD57164B4A5000B4E84A /* VERSION in Resources */ = {isa = PBXBuildFile; fileRef = 9E25AD51164B4A5000B4E84A /* VERSION */; };
 		9E8B03BD1638DFD200E12F47 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E8B03BC1638DFD200E12F47 /* UIKit.framework */; };
 		9E8B03BF1638DFD200E12F47 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E8B03BE1638DFD200E12F47 /* Foundation.framework */; };
 		9E8B03C11638DFD200E12F47 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E8B03C01638DFD200E12F47 /* CoreGraphics.framework */; };
@@ -21,15 +27,15 @@
 		9E8B03DC1638DFD200E12F47 /* MTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8B03DB1638DFD200E12F47 /* MTViewController.m */; };
 		9E8B03F31638E92C00E12F47 /* DevelopersGuide.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 9E8B03F21638E92C00E12F47 /* DevelopersGuide.pdf */; };
 		9E8B041F1639B70400E12F47 /* yahtzee.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 9E8B041E1639B70400E12F47 /* yahtzee.pdf */; };
-		9EC18815164999140000628E /* PSPDFKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EC1880E164999140000628E /* PSPDFKit.framework */; };
-		9EC18816164999140000628E /* ACKNOWLEDGEMENTS in Resources */ = {isa = PBXBuildFile; fileRef = 9EC18810164999140000628E /* ACKNOWLEDGEMENTS */; };
-		9EC18817164999140000628E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 9EC18811164999140000628E /* LICENSE */; };
-		9EC18818164999140000628E /* PSPDFKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9EC18812164999140000628E /* PSPDFKit.bundle */; };
-		9EC18819164999140000628E /* PSPDFKit.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 9EC18813164999140000628E /* PSPDFKit.xcconfig */; };
-		9EC1881A164999140000628E /* VERSION in Resources */ = {isa = PBXBuildFile; fileRef = 9EC18814164999140000628E /* VERSION */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9E25AD4B164B4A5000B4E84A /* PSPDFKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PSPDFKit.framework; sourceTree = "<group>"; };
+		9E25AD4D164B4A5000B4E84A /* ACKNOWLEDGEMENTS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ACKNOWLEDGEMENTS; sourceTree = "<group>"; };
+		9E25AD4E164B4A5000B4E84A /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		9E25AD4F164B4A5000B4E84A /* PSPDFKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PSPDFKit.bundle; sourceTree = "<group>"; };
+		9E25AD50164B4A5000B4E84A /* PSPDFKit.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PSPDFKit.xcconfig; sourceTree = "<group>"; };
+		9E25AD51164B4A5000B4E84A /* VERSION */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VERSION; sourceTree = "<group>"; };
 		9E8B03B81638DFD200E12F47 /* pspdfsample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pspdfsample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E8B03BC1638DFD200E12F47 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9E8B03BE1638DFD200E12F47 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -49,12 +55,6 @@
 		9E8B03DB1638DFD200E12F47 /* MTViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTViewController.m; sourceTree = "<group>"; };
 		9E8B03F21638E92C00E12F47 /* DevelopersGuide.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = DevelopersGuide.pdf; sourceTree = "<group>"; };
 		9E8B041E1639B70400E12F47 /* yahtzee.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = yahtzee.pdf; sourceTree = "<group>"; };
-		9EC1880E164999140000628E /* PSPDFKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PSPDFKit.framework; sourceTree = "<group>"; };
-		9EC18810164999140000628E /* ACKNOWLEDGEMENTS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ACKNOWLEDGEMENTS; sourceTree = "<group>"; };
-		9EC18811164999140000628E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		9EC18812164999140000628E /* PSPDFKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PSPDFKit.bundle; sourceTree = "<group>"; };
-		9EC18813164999140000628E /* PSPDFKit.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PSPDFKit.xcconfig; sourceTree = "<group>"; };
-		9EC18814164999140000628E /* VERSION */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VERSION; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,13 +65,35 @@
 				9E8B03BD1638DFD200E12F47 /* UIKit.framework in Frameworks */,
 				9E8B03BF1638DFD200E12F47 /* Foundation.framework in Frameworks */,
 				9E8B03C11638DFD200E12F47 /* CoreGraphics.framework in Frameworks */,
-				9EC18815164999140000628E /* PSPDFKit.framework in Frameworks */,
+				9E25AD52164B4A5000B4E84A /* PSPDFKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9E25AD4A164B4A5000B4E84A /* PSPDFKit.embeddedframework */ = {
+			isa = PBXGroup;
+			children = (
+				9E25AD4B164B4A5000B4E84A /* PSPDFKit.framework */,
+				9E25AD4C164B4A5000B4E84A /* Resources */,
+			);
+			name = PSPDFKit.embeddedframework;
+			path = pspdfsample/deps/PSPDFKit.embeddedframework;
+			sourceTree = "<group>";
+		};
+		9E25AD4C164B4A5000B4E84A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9E25AD4D164B4A5000B4E84A /* ACKNOWLEDGEMENTS */,
+				9E25AD4E164B4A5000B4E84A /* LICENSE */,
+				9E25AD4F164B4A5000B4E84A /* PSPDFKit.bundle */,
+				9E25AD50164B4A5000B4E84A /* PSPDFKit.xcconfig */,
+				9E25AD51164B4A5000B4E84A /* VERSION */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		9E8B03AD1638DFD200E12F47 = {
 			isa = PBXGroup;
 			children = (
@@ -92,7 +114,7 @@
 		9E8B03BB1638DFD200E12F47 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9EC1880D164999140000628E /* PSPDFKit.embeddedframework */,
+				9E25AD4A164B4A5000B4E84A /* PSPDFKit.embeddedframework */,
 				9E8B03BC1638DFD200E12F47 /* UIKit.framework */,
 				9E8B03BE1638DFD200E12F47 /* Foundation.framework */,
 				9E8B03C01638DFD200E12F47 /* CoreGraphics.framework */,
@@ -128,28 +150,6 @@
 				9E8B041E1639B70400E12F47 /* yahtzee.pdf */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		9EC1880D164999140000628E /* PSPDFKit.embeddedframework */ = {
-			isa = PBXGroup;
-			children = (
-				9EC1880E164999140000628E /* PSPDFKit.framework */,
-				9EC1880F164999140000628E /* Resources */,
-			);
-			name = PSPDFKit.embeddedframework;
-			path = pspdfsample/deps/PSPDFKit.embeddedframework;
-			sourceTree = "<group>";
-		};
-		9EC1880F164999140000628E /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				9EC18810164999140000628E /* ACKNOWLEDGEMENTS */,
-				9EC18811164999140000628E /* LICENSE */,
-				9EC18812164999140000628E /* PSPDFKit.bundle */,
-				9EC18813164999140000628E /* PSPDFKit.xcconfig */,
-				9EC18814164999140000628E /* VERSION */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -212,11 +212,11 @@
 				9E8B03D91638DFD200E12F47 /* MainStoryboard_iPad.storyboard in Resources */,
 				9E8B03F31638E92C00E12F47 /* DevelopersGuide.pdf in Resources */,
 				9E8B041F1639B70400E12F47 /* yahtzee.pdf in Resources */,
-				9EC18816164999140000628E /* ACKNOWLEDGEMENTS in Resources */,
-				9EC18817164999140000628E /* LICENSE in Resources */,
-				9EC18818164999140000628E /* PSPDFKit.bundle in Resources */,
-				9EC18819164999140000628E /* PSPDFKit.xcconfig in Resources */,
-				9EC1881A164999140000628E /* VERSION in Resources */,
+				9E25AD53164B4A5000B4E84A /* ACKNOWLEDGEMENTS in Resources */,
+				9E25AD54164B4A5000B4E84A /* LICENSE in Resources */,
+				9E25AD55164B4A5000B4E84A /* PSPDFKit.bundle in Resources */,
+				9E25AD56164B4A5000B4E84A /* PSPDFKit.xcconfig in Resources */,
+				9E25AD57164B4A5000B4E84A /* VERSION in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,7 +315,7 @@
 		};
 		9E8B03E01638DFD200E12F47 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9EC18813164999140000628E /* PSPDFKit.xcconfig */;
+			baseConfigurationReference = 9E25AD50164B4A5000B4E84A /* PSPDFKit.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -331,7 +331,7 @@
 		};
 		9E8B03E11638DFD200E12F47 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9EC18813164999140000628E /* PSPDFKit.xcconfig */;
+			baseConfigurationReference = 9E25AD50164B4A5000B4E84A /* PSPDFKit.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

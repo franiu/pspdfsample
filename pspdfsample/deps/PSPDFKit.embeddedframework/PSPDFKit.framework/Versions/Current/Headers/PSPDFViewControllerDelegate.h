@@ -70,6 +70,8 @@
 /// Will be called after zoom level has been changed, either programatically or manually.
 - (void)pdfViewController:(PSPDFViewController *)pdfController didEndPageZooming:(UIScrollView *)scrollView atScale:(CGFloat)scale;
 
+/// Callback for a render operation. Will be called on a thread (since rendering is async)
+/// You can use the context to add custom drawing.
 - (void)pdfViewController:(PSPDFViewController *)pdfController didRenderPage:(NSUInteger)page inContext:(CGContextRef)context withSize:(CGSize)fullSize clippedToRect:(CGRect)clipRect withAnnotations:(NSArray *)annotations options:(NSDictionary *)options;
 
 /// Return a PSPDFDocument for a relative path.

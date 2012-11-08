@@ -66,6 +66,7 @@ typedef NS_ENUM(NSUInteger, PSPDFAnnotationToolbarMode) {
 
 @interface PSPDFAnnotationToolbar (PSPDFSubclassing)
 
+/// Toolbar might be used "headless" but for state management. Manually call buttons here.
 - (void)noteButtonPressed:(id)sender;
 - (void)highlightButtonPressed:(id)sender;
 - (void)strikeOutButtonPressed:(id)sender;
@@ -73,8 +74,13 @@ typedef NS_ENUM(NSUInteger, PSPDFAnnotationToolbarMode) {
 - (void)drawButtonPressed:(id)sender;
 - (void)doneButtonPressed:(id)sender;
 
+/// Manually cancel drawing. Only allowed during toolbarMode == PSPDFAnnotationToolbarDraw.
+- (void)cancelDrawingAnimated:(BOOL)animated;
+/// Manually confirm drawing. Only allowed during toolbarMode == PSPDFAnnotationToolbarDraw.
+- (void)doneDrawingAnimated:(BOOL)animated;
+
 // Finish up drawing. Usually called by the drawing delegate.
-- (void)finishDrawingAndSaveAnnotation:(BOOL)save;
+- (void)finishDrawingAnimated:(BOOL)animated andSaveAnnotation:(BOOL)saveAnnotation;
 
 // helpers to lock/unlock the controller
 - (void)lockPDFController;

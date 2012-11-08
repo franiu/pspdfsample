@@ -236,5 +236,4 @@ extern NSString *const kPSPDFHidePageHUDElements;
 /// Allow to update the boundingBox correctly for isOverlay = YES annotations.
 - (void)updatePageAnnotationView:(UIView<PSPDFAnnotationView> *)annotationView usingBlock:(void (^)(PSPDFAnnotation *annotation))block;
 
-
 @end
