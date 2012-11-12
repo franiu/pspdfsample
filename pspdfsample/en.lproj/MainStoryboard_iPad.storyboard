@@ -33,6 +33,17 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem title="More interesting custom button" id="C57-MS-ILk"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Zml-qu-LLl"/>
+                                    <barButtonItem title="Rotate LEFT" id="5r5-lP-9dh">
+                                        <connections>
+                                            <action selector="rotatePageLeft:" destination="2" id="Xvj-oO-Dag"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Rotate RIGHT" id="C8d-0Y-CLJ">
+                                        <connections>
+                                            <action selector="rotatePageRight:" destination="2" id="CCE-x4-Bfn"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>

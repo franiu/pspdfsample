@@ -31,7 +31,7 @@
 @property (nonatomic, assign, readonly, getter=isOutlineParsed) BOOL outlineParsed;
 
 /// Returns YES if there is an outline in the document and we parsed it (outline.children > 0)
-/// Will return NO if outline is not yet parsed.
+/// Will return NO if outline is not yet parsed. Will not parse the outline, access outline for that.
 @property (nonatomic, assign, readonly, getter=isOutlineAvailable) BOOL outlineAvailable;
 
 /// Attached document provider.

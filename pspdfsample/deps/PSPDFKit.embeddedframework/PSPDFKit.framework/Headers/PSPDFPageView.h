@@ -98,6 +98,9 @@ extern NSString *const kPSPDFHidePageHUDElements;
 /// Convert a pdf rect to the corresponding view rect
 - (CGRect)convertPDFRectToViewRect:(CGRect)pdfRect;
 
+/// Use for PDF rects that are already pre-rotated. (e.g. glyphs)
+- (CGRect)convertGlyphPDFRectToViewRect:(CGRect)pdfRect;
+
 /// Get the glyphs/words on a specific page.
 - (NSDictionary *)objectsAtPoint:(CGPoint)pdfPoint options:(NSDictionary *)options;
 

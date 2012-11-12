@@ -37,4 +37,7 @@
 /// Selection View delegate.
 @property (nonatomic, weak) id<PSPDFSelectionViewDelegate> delegate;
 
+/// Allows to mark an array of CGRects on the view.
+@property (nonatomic, copy) NSArray *rects;
+
 @end

@@ -1,37 +1,36 @@
 //
-//  PSPDFColorSelectionViewController.h
+//  PSPDFColorSelectionViewController.m
 //  PSPDFKit
 //
 //  Copyright 2012 Peter Steinberger. All rights reserved.
 //
 
-#import "PSPDFKitGlobal.h"
+#import <UIKit/UIKit.h>
+#import "PSPDFSimplePageViewController.h"
 
 @protocol PSPDFColorSelectionViewControllerDelegate;
-@class PSPDFSimplePageViewController;
 
-/// Flexible Color Picker.
+/// Beautiful color selection controller.
 @interface PSPDFColorSelectionViewController : UIViewController
 
-/// Creates a new color picker on every access.
 + (PSPDFSimplePageViewController *)defaultColorPickerWithTitle:(NSString *)title delegate:(id<PSPDFColorSelectionViewControllerDelegate>)delegate;
 
-/// Returns PSPDFColorSelectionViewController.
 + (id)monoChromeSelectionViewController;
++ (id)modernColorsSelectionViewController;
++ (id)vintageColorsSelectionViewController;
 + (id)rainbowSelectionViewController;
++ (id)colorSelectionViewControllerFromColors:(NSArray *)colorsArray addDarkenedVariants:(BOOL)darkenedVariants;
 
-/// Default initializer
 - (id)initWithColors:(NSArray *)colors;
 
-@property (nonatomic, weak) id<PSPDFColorSelectionViewControllerDelegate> delegate;
+@property (nonatomic, weak) id <PSPDFColorSelectionViewControllerDelegate> delegate;
 
 @end
 
-
-/// Delegate for the color picker.
 @protocol PSPDFColorSelectionViewControllerDelegate <NSObject>
 
 @required
+
 - (UIColor *)colorSelectionControllerSelectedColor:(PSPDFColorSelectionViewController *)controller;
 - (void)colorSelectionController:(PSPDFColorSelectionViewController *)controller didSelectedColor:(UIColor *)color;
 

@@ -167,9 +167,9 @@
 - (void)pdfViewController:(PSPDFViewController *)pdfController didShowAnnotationView:(UIView <PSPDFAnnotationView> *)annotationView onPageView:(PSPDFPageView *)pageView;
 
 /**
- Called before we show a controller modally or in a popover. Allows last minute modifications.\
+ Called before we show a internal controller (color picker, note editor, ...) modally or in a popover. Allows last minute modifications.
  
- The embeddedInController is either a UINavigationController, a UIPopoverController or nil. viewController is of type id because controller like UIPrntInteractionController are no subclasses of UIViewController.
+ The embeddedInController is either a UINavigationController, a UIPopoverController or nil. viewController is of type id because controller like UIPrintInteractionController are no subclasses of UIViewController.
  
  Return NO to process the displaying manually.
  */

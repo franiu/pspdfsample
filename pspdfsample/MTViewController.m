@@ -8,85 +8,9 @@
 
 #import "MTViewController.h"
 #import <PSPDFKit/PSPDFKit.h>
-
-/**
- * Subclassing button items
- */
-@protocol DVPDFBarButtonItemDelegate <NSObject>
-
-@required
--(void)barButtonItemActionInvoked:(PSPDFBarButtonItem*)item;
-
-@end
-
-@interface DVPDFBookmarkBarButtonItem : PSPDFBookmarkBarButtonItem
-
-- (void)action:(PSPDFBarButtonItem *)sender;
-@property (nonatomic, assign) id<DVPDFBarButtonItemDelegate> delegate;
-
-@end
-
-@interface DVPDFAnnotationBarButtonItem : PSPDFAnnotationBarButtonItem
-
-- (void)action:(PSPDFBarButtonItem *)sender;
-@property (nonatomic, assign) id<DVPDFBarButtonItemDelegate> delegate;
-
-@end
-
-@interface DVPDFTOCBarButtonItem : PSPDFOutlineBarButtonItem
-
-- (void)action:(PSPDFBarButtonItem *)sender;
-@property (nonatomic, assign) id<DVPDFBarButtonItemDelegate> delegate;
-
-@end
-
-@interface DVPDFSearchBarButtonItem : PSPDFSearchBarButtonItem
-
-- (void)action:(PSPDFBarButtonItem *)sender;
-@property (nonatomic, assign) id<DVPDFBarButtonItemDelegate> delegate;
-
-@end
-
-@implementation DVPDFBookmarkBarButtonItem
-
-- (void)action:(PSPDFBarButtonItem *)sender
-{
-    [self.delegate barButtonItemActionInvoked:self];
-    [super action:sender];
-}
-
-@end
-
-@implementation DVPDFAnnotationBarButtonItem : PSPDFAnnotationBarButtonItem
-
-- (void)action:(PSPDFBarButtonItem *)sender
-{
-    [self.delegate barButtonItemActionInvoked:self];
-    [super action:sender];
-}
-
-@end
-
-@implementation DVPDFTOCBarButtonItem : PSPDFOutlineBarButtonItem
-
-- (void)action:(PSPDFBarButtonItem *)sender
-{
-    [self.delegate barButtonItemActionInvoked:self];
-    [super action:sender];
-}
-
-@end
-
-@implementation DVPDFSearchBarButtonItem : PSPDFSearchBarButtonItem
-
-- (void)action:(PSPDFBarButtonItem *)sender
-{
-    [self.delegate barButtonItemActionInvoked:self];
-    [super action:sender];
-}
-
-@end
-
+#import "DvPdfDocument.h"
+#import "DvPdfDocumentProvider.h"
+#import "DvPdfViewController.h"
 
 #define DOCS_COUNT 2
 
@@ -99,7 +23,7 @@
 @property (retain, nonatomic) IBOutlet UIView *pdfContainer;
 @property (retain, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (retain, nonatomic) IBOutlet UIToolbar *bottomToolbar;
-@property (retain, nonatomic) PSPDFViewController* pdfvc;
+@property (retain, nonatomic) DvPdfViewController* pdfvc;
 @end
 
 @implementation MTViewController
@@ -138,7 +62,7 @@
     kPSPDFLogLevel = PSPDFLogLevelInfo;
     
     NSURL* docUrl = [[NSBundle mainBundle] URLForResource:_documentNames[_documentIndex] withExtension:@"pdf"];
-    PSPDFDocument* pdfDocument = [PSPDFDocument PDFDocumentWithURL:docUrl];
+    DvPdfDocument* pdfDocument = [DvPdfDocument PDFDocumentWithURL:docUrl];
     pdfDocument.annotationSaveMode = PSPDFAnnotationSaveModeExternalFile;
 
     if ( self.pdfvc )
@@ -173,7 +97,7 @@
     }
     
     // Create a new PDF view controller
-    self.pdfvc = [[[PSPDFViewController alloc] initWithDocument:pdfDocument] autorelease];
+    self.pdfvc = [[[DvPdfViewController alloc] initWithDocument:pdfDocument] autorelease];
     
     // Setup the look and feel
     CGRect frame = self.pdfContainer.frame;
@@ -183,7 +107,6 @@
     
     // Setup subclassing of the bar button items
     self.pdfvc.overrideClassNames = @{
-    // TODO: UNCOMMENT THIS
     (id)[PSPDFBookmarkBarButtonItem class] : [DVPDFBookmarkBarButtonItem class],
     (id)[PSPDFAnnotationBarButtonItem class] : [DVPDFAnnotationBarButtonItem class],
     (id)[PSPDFOutlineBarButtonItem class] : [DVPDFTOCBarButtonItem class],
@@ -199,7 +122,6 @@
     
     [items addObject:self.pdfvc.bookmarkButtonItem];
     self.pdfvc.bookmarkButtonItem.tag = 1;
-    // TODO: AND THIS
     ((DVPDFBookmarkBarButtonItem*)self.pdfvc.bookmarkButtonItem).delegate = self;
     self.pdfvc.bookmarkButtonItem.tapChangesBookmarkStatus = NO;
     [items addObject:self.pdfvc.annotationButtonItem];
@@ -260,4 +182,21 @@
     [_bottomToolbar release];
     [super dealloc];
 }
+
+#pragma mark - Rotation of content
+
+- (IBAction)rotatePageLeft:(id)sender {
+    if ( self.pdfvc )
+    {
+        [self.pdfvc forceRotationLeftForCurrentPage];
+    }
+}
+
+- (IBAction)rotatePageRight:(id)sender {
+    if ( self.pdfvc )
+    {
+        [self.pdfvc forceRotationRightForCurrentPage];
+    }
+}
+
 @end

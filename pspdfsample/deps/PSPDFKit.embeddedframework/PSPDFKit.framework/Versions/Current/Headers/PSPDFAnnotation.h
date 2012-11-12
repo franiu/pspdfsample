@@ -154,10 +154,6 @@ typedef NS_ENUM(NSUInteger, PSPDFAnnotationBorderStyle) {
 /// Rectangle of specific annotation.
 @property (nonatomic, assign) CGRect boundingBox;
 
-/// Annotations already have a boundingBox where rotation is applied.
-/// Use the non-rotated box to convert the rect to screen coordinate space (where it will be rotated again)
-@property (nonatomic, assign) CGRect boundingBoxWithoutRotation;
-
 /// User (title) flag. ("T" property)
 @property (nonatomic, copy) NSString *user;
 

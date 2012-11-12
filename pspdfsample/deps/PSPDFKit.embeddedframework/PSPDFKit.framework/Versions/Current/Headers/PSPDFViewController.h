@@ -59,9 +59,10 @@ typedef NS_ENUM(NSInteger, PSPDFStatusBarStyleSetting) {
 };
 
 typedef NS_ENUM(NSInteger, PSPDFHUDViewMode) {
-    PSPDFHUDViewAlways,               /// Always show the HUD.
-    PSPDFHUDViewAutomatic,            /// Show HUD on touch and first/last page.
-    PSPDFHUDViewNever                 /// Never show the HUD.
+    PSPDFHUDViewAlways,                   /// Always show the HUD.
+    PSPDFHUDViewAutomatic,                /// Show HUD on touch and first/last page.
+    PSPDFHUDViewAutomaticNoFirstLastPage, /// Show HUD on touch.
+    PSPDFHUDViewNever                     /// Never show the HUD.
 };
 
 /// Default action for PDF link annotations.
@@ -479,7 +480,7 @@ typedef NS_ENUM(NSInteger, PSPDFPageRenderingMode) {
 /// Usually, using the delegates is a better idea to get the current page.
 - (PSPDFPageView *)pageViewForPage:(NSUInteger)page;
 
-/// Saves the popoverController if currently displayed.
+/// Saves the popoverController if currently displayed. (KVO compliant, like almost all properties)
 @property (nonatomic, strong) UIPopoverController *popoverController;
 
 /// Paging scroll view. (hosts scollviews for pdf)
