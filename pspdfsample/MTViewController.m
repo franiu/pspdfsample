@@ -199,4 +199,11 @@
     }
 }
 
+#pragma mark - PSPDFViewControllerDelegate
+
+- (void)pdfViewController:(PSPDFViewController *)pdfController didDisplayDocument:(PSPDFDocument *)document
+{
+    [self.pdfvc searchForString:@"Foo" animated:YES];
+}
+
 @end
