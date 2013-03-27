@@ -12,18 +12,16 @@
 #import "DvPdfDocumentProvider.h"
 #import "DvPdfViewController.h"
 
-#define DOCS_COUNT 2
-
 @interface MTViewController () <PSPDFViewControllerDelegate, DVPDFBarButtonItemDelegate>
 {
-    unsigned int _documentIndex;
-    NSString* _documentNames[DOCS_COUNT];
 }
 
 @property (retain, nonatomic) IBOutlet UIView *pdfContainer;
 @property (retain, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (retain, nonatomic) IBOutlet UIToolbar *bottomToolbar;
 @property (retain, nonatomic) DvPdfViewController* pdfvc;
+@property (nonatomic) unsigned int documentIndex;
+@property (retain, nonatomic) NSArray* documentNames;
 @end
 
 @implementation MTViewController
@@ -57,11 +55,11 @@
 
 - (void)toggleDocuments
 {
-    _documentIndex = (_documentIndex+1 ) % DOCS_COUNT;
+    if ( self.documentIndex >= self.documentNames.count ) self.documentIndex = 0;
     
     kPSPDFLogLevel = PSPDFLogLevelInfo;
     
-    NSURL* docUrl = [[NSBundle mainBundle] URLForResource:_documentNames[_documentIndex] withExtension:@"pdf"];
+    NSURL* docUrl = [[NSBundle mainBundle] URLForResource:self.documentNames[_documentIndex++] withExtension:@"pdf"];
     DvPdfDocument* pdfDocument = [DvPdfDocument PDFDocumentWithURL:docUrl];
     pdfDocument.annotationSaveMode = PSPDFAnnotationSaveModeExternalFile;
 
@@ -154,7 +152,15 @@
     [self.pdfContainer addSubview:self.pdfvc.view];
     [self addChildViewController:self.pdfvc];
     
-    [self.pdfvc showControls];
+    //[self.pdfvc showControls];
+}
+- (IBAction)dismiss:(id)sender {
+    [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
+}
+- (IBAction)demoXib:(id)sender {
+    MTViewController* modal = [[MTViewController alloc] init];
+    [self presentViewController:modal animated:YES completion:nil];
+    [modal release];
 }
 
 - (void)viewDidLoad
@@ -162,10 +168,9 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 
-    _documentIndex = 0;
+    self.documentIndex = 0;
     
-    _documentNames[0] = @"DevelopersGuide";
-    _documentNames[1] = @"yahtzee";
+    self.documentNames = @[@"DevelopersGuide", @"yahtzee"];
 
     [self toggleDocuments];
 }
@@ -180,6 +185,7 @@
     [_pdfContainer release];
     [_toolbar release];
     [_bottomToolbar release];
+    [_documentNames release];
     [super dealloc];
 }
 
@@ -203,7 +209,7 @@
 
 - (void)pdfViewController:(PSPDFViewController *)pdfController didDisplayDocument:(PSPDFDocument *)document
 {
-    [self.pdfvc searchForString:@"Foo" animated:YES];
+//    [self.pdfvc searchForString:@"Foo" animated:YES];
 }
 
 @end

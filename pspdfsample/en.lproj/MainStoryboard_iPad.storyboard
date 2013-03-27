@@ -21,6 +21,12 @@
                                             <action selector="swapDocs:" destination="2" id="eqr-G5-8Wg"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="wj7-p6-Y2Y"/>
+                                    <barButtonItem title="Demo XIB" id="hY9-kn-BJm">
+                                        <connections>
+                                            <action selector="demoXib:" destination="2" id="fah-fn-Amb"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <view contentMode="scaleToFill" id="ktv-GX-jxr" userLabel="PDF Container">
@@ -63,6 +69,9 @@
         <class className="MTViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MTViewController.h"/>
             <relationships>
+                <relationship kind="action" name="dismiss:"/>
+                <relationship kind="action" name="rotatePageLeft:"/>
+                <relationship kind="action" name="rotatePageRight:"/>
                 <relationship kind="action" name="swapDocs:"/>
                 <relationship kind="outlet" name="bottomToolbar" candidateClass="UIToolbar"/>
                 <relationship kind="outlet" name="pdfContainer" candidateClass="UIView"/>
