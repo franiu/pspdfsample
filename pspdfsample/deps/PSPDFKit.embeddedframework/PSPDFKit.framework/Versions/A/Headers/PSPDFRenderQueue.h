@@ -1,0 +1,89 @@
+//
+//  PSPDFRenderQueue.h
+//  PSPDFKit
+//
+//  Copyright (c) 2012-2013 Peter Steinberger. All rights reserved.
+//
+
+#import "PSPDFKitGlobal.h"
+
+@class PSPDFDocument, PSPDFRenderJob, PSPDFRenderQueue, PSPDFRenderReceipt;
+
+/// Implement this delegate to get rendered pages. (Most of the times, you want to use PSPDFCache instead)
+@protocol PSPDFRenderDelegate <NSObject>
+
+/// Called when a render job finished. Guaranteed to be called from the main thread.
+- (void)renderQueue:(PSPDFRenderQueue *)renderQueue jobDidFinish:(PSPDFRenderJob *)job;
+
+@end
+
+typedef NS_ENUM(NSUInteger, PSPDFRenderQueuePriority) {
+    PSPDFRenderQueuePriorityVeryLow,  // Used to re-render annotation changes.
+    PSPDFRenderQueuePriorityLow,      // Low and ReallyLow are used from within PSPDFCache.
+    PSPDFRenderQueuePriorityNormal,   // Life page renderings.
+    PSPDFRenderQueuePriorityHigh,     // Zoomed renderings.
+    PSPDFRenderQueuePriorityVeryHigh, // Highest priority. Unused.
+};
+
+/// Render Queue. Does not cache. Used for rendering pages/page parts in PSPDFPageView.
+@interface PSPDFRenderQueue : NSObject
+
+/// Render Queue is a singleton.
++ (instancetype)sharedRenderQueue;
+
+/// Requests a (freshly) rendered image from a specified document. Does not use the file cache.
+/// For options, see PSPDFPageRender.
+/// IF `queueAsNext` is set, the request will be processed ASAP, skipping the current queue.
+- (PSPDFRenderJob *)requestRenderedImageForDocument:(PSPDFDocument *)document forPage:(NSUInteger)page withSize:(CGSize)size clippedToRect:(CGRect)clipRect withAnnotations:(NSArray *)annotations options:(NSDictionary *)options priority:(PSPDFRenderQueuePriority)priority queueAsNext:(BOOL)queueAsNext delegate:(id<PSPDFRenderDelegate>)delegate;
+
+/// Cancel job.
+/// Use NSNotFound for `page` to delete all requests for the document.
+- (void)cancelRenderingForDocument:(PSPDFDocument *)document forPage:(NSUInteger)page delegate:(id<PSPDFRenderDelegate>)delegate async:(BOOL)async;
+
+/// Cancel all queued and running jobs.
+- (void)cancelAllJobs;
+
+/// Cancels all queued render-calls.
+/// Async will perform on the next thread. (don't use async in dealloc)
+- (void)cancelRenderingForDelegate:(id<PSPDFRenderDelegate>)delegate async:(BOOL)async;
+
+/// Returns YES if currently a RenderJob is scheduled or running for delegate.
+- (BOOL)hasRenderJobsForDelegate:(id<PSPDFRenderDelegate>)delegate;
+
+/// Return how many jobs are currently queued.
+- (NSUInteger)numberOfQueuedJobs;
+
+/// The minimum priority for requests. Defaults to PSPDFRenderQueuePriorityVeryLow.
+/// Set to PSPDFRenderQueuePriorityNormal to temporarily pause cache requests.
+@property (nonatomic, assign) PSPDFRenderQueuePriority minimumProcessPriority;
+
+/// Amount of render requests that run at the same time. Defaults to 2 for modern devices.
+@property (atomic, assign) NSUInteger concurrentRunningRenderRequests;
+
+@end
+
+@interface PSPDFRenderJob : NSObject
+
+@property (nonatomic, assign, readonly) NSUInteger page;
+@property (nonatomic, weak,   readonly) PSPDFDocument *document;
+@property (nonatomic, assign, readonly) CGSize fullSize;
+@property (nonatomic, assign, readonly) CGRect clipRect;
+@property (nonatomic, assign, readonly) float zoomScale;
+@property (nonatomic, copy,   readonly) NSArray *annotations;
+@property (nonatomic, assign) PSPDFRenderQueuePriority priority;
+@property (nonatomic, copy)   NSDictionary *options;
+@property (atomic,    weak)   id<PSPDFRenderDelegate> delegate;
+@property (nonatomic, strong) UIImage *renderedImage;
+@property (nonatomic, strong) PSPDFRenderReceipt *renderReceipt;
+
+@end
+
+/// Gets a 'receipt' of the current render operation, allows to compare different renders of the same page.
+@interface PSPDFRenderReceipt : NSObject <NSCoding>
+
+- (id)initWithDocument:(PSPDFDocument *)document andPage:(NSUInteger)page ofSize:(CGSize)size
+              clipRect:(CGRect)clipRect annotations:(NSArray *)annotations options: (NSDictionary *)options;
+
+@property (nonatomic, copy) NSString *renderFingerprintString;
+@property (nonatomic, assign) double timeInNanoseconds; // Not persisted. Statistic feature only.
+@end
