@@ -261,67 +261,11 @@
     if ( searchResults.count > 0 )
     {
         NSLog(@"Found an instance of the string in a document");
-//        SearchResult* result = nil;
-//        for ( result in _searchResultRows )
-//        {
-//            if ( [result.document isEqual:operation.documentToSearch] )
-//            {
-//                // The same document. Simply update matches count
-//                if ( completed || result.interrupted )
-//                {
-//                    result.numberOfMatchesFound = searchResults.count;
-//                    result.interrupted = NO;
-//                }
-//                else
-//                {
-//                    // Until search is complete updates are incremental
-//                    result.numberOfMatchesFound += searchResults.count;
-//                }
-//                PSPDFSearchResult* firstMatch = [searchResults objectAtIndex:0];
-//                if ( result.firstOccurencePageHint == 0 )
-//                {
-//                    [NSNumber numberWithUnsignedInteger:firstMatch.pageIndex];
-//                }
-//                result.searchComplete = completed;
-//                result.interrupted = interrupted;
-//                break;
-//            }
-//        }
-//        
-//        if ( result == nil )
-//        {
-//            // Document didn't appear before.
-//            result = [SearchResult searchResultWithDocument:operation.documentToSearch andNumberOfMatches:searchResults.count searchComplete:completed];
-//            PSPDFSearchResult* firstMatch = [searchResults objectAtIndex:0];
-//            result.firstOccurencePageHint = [NSNumber numberWithUnsignedInteger:firstMatch.pageIndex];
-//            [_searchResultRows addObject:result];
-//        }
-//        
-//        self.searchResultDocumentArray = _searchResultRows;
-//        [self.documentsTableView reloadData];
     }
 }
 
 - (void) documentSearchOperation:(DocumentSearchOperation *)operation didFinishSearch:(NSString *)searchId withResults:(NSArray *)searchResults earlyTermination:(BOOL)earlyTermination lastPageSearched:(unsigned int)lastPageSearched
 {
-//    if ( earlyTermination )
-//    {
-//        if ( [operation.searchUUID isEqualToString:self.currentSearchUUID] )
-//        {
-//            // The operation should continue from the last page searched. Re-queue
-//            [self updateSearchResultsWithOperation:operation withSearchId:searchId withResults:searchResults completed:NO interrupted:YES];
-//            
-//            DocumentSearchOperation* searchOperation = [[[DocumentSearchOperation alloc] initWithSearchUUID:operation.searchUUID documentToSearch:operation.documentToSearch
-//                                                                                               searchPhrase:operation.searchPhrase delegate:self] autorelease];
-//            searchOperation.performQuickSearchOnly = NO;
-//            [self.documentSearchOperations addOperation:searchOperation];
-//        }
-//    }
-//    else
-//    {
-//        // We're done
-//        [self updateSearchResultsWithOperation:operation withSearchId:searchId withResults:searchResults completed:YES interrupted:NO];
-//    }
 }
 
 - (void) documentSearchOperation:(DocumentSearchOperation *)operation didUpdateSearch:(NSString *)searchId withResults:(NSArray *)searchResults
