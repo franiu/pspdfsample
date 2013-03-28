@@ -11,8 +11,10 @@
 #import "DvPdfDocument.h"
 #import "DvPdfDocumentProvider.h"
 #import "DvPdfViewController.h"
+#import "DocumentSearchOperation.h"
+#import "MBProgressHUD.h"
 
-@interface MTViewController () <PSPDFViewControllerDelegate, DVPDFBarButtonItemDelegate>
+@interface MTViewController () <PSPDFViewControllerDelegate, DVPDFBarButtonItemDelegate, DocumentSearchOperationDelegate>
 {
 }
 
@@ -22,7 +24,11 @@
 @property (retain, nonatomic) DvPdfViewController* pdfvc;
 @property (nonatomic) unsigned int documentIndex;
 @property (retain, nonatomic) NSArray* documentNames;
+@property (retain, nonatomic) NSOperationQueue* documentSearchOperations;
+@property (retain, nonatomic) MBProgressHUD* hud;
+
 @end
+
 
 @implementation MTViewController
 
@@ -122,11 +128,14 @@
     self.pdfvc.bookmarkButtonItem.tag = 1;
     ((DVPDFBookmarkBarButtonItem*)self.pdfvc.bookmarkButtonItem).delegate = self;
     self.pdfvc.bookmarkButtonItem.tapChangesBookmarkStatus = NO;
+
     [items addObject:self.pdfvc.annotationButtonItem];
     self.pdfvc.annotationButtonItem.tag = 1;
     ((DVPDFAnnotationBarButtonItem*)self.pdfvc.annotationButtonItem).delegate = self;
+    
     [items addObject:self.pdfvc.outlineButtonItem];
     self.pdfvc.outlineButtonItem.tag = 1;
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // Update the outline button in the background
         if ( ![self.pdfvc.outlineButtonItem isAvailableBlocking] )
@@ -143,7 +152,7 @@
     self.bottomToolbar.items = items;
     
     items = [[self.toolbar.items mutableCopy] autorelease];
-    [items addObject:self.pdfvc.searchButtonItem];
+    [items insertObject:self.pdfvc.searchButtonItem atIndex:0];
     self.pdfvc.searchButtonItem.tag = 1;
     ((DVPDFSearchBarButtonItem*)self.pdfvc.searchButtonItem).delegate = self;
     self.toolbar.items = items;
@@ -152,7 +161,6 @@
     [self.pdfContainer addSubview:self.pdfvc.view];
     [self addChildViewController:self.pdfvc];
     
-    //[self.pdfvc showControls];
 }
 - (IBAction)dismiss:(id)sender {
     [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
@@ -170,7 +178,7 @@
 
     self.documentIndex = 0;
     
-    self.documentNames = @[@"DevelopersGuide", @"yahtzee"];
+    self.documentNames = @[@"DevelopersGuide", @"yahtzee", @"CodeCharts"];
 
     [self toggleDocuments];
 }
@@ -186,6 +194,12 @@
     [_toolbar release];
     [_bottomToolbar release];
     [_documentNames release];
+    if ( self.documentSearchOperations )
+    {
+        [self.documentSearchOperations removeObserver:self forKeyPath:@"operationCount"];
+    }
+    [_documentSearchOperations cancelAllOperations];
+    [_documentSearchOperations release];
     [super dealloc];
 }
 
@@ -202,6 +216,133 @@
     if ( self.pdfvc )
     {
         [self.pdfvc forceRotationRightForCurrentPage];
+    }
+}
+
+- (IBAction)demoSearchCrash:(UIBarButtonItem *)sender {
+
+    kPSPDFLowMemoryMode = YES;
+    if ( !self.documentSearchOperations )
+    {
+        self.documentSearchOperations = [[[NSOperationQueue alloc] init] autorelease];
+        // 2 simultaneous operations seem to give good performance without causing memory exhaustion.
+        // This number may be tweaked in the future.
+        self.documentSearchOperations.maxConcurrentOperationCount = 2;
+        [self.documentSearchOperations addObserver:self forKeyPath:@"operationCount" options:NSKeyValueObservingOptionNew context:NULL];
+    }
+    
+    NSString* uuid = [[NSUUID UUID] UUIDString];
+    for ( NSString* docName in self.documentNames )
+    {
+        NSURL* docUrl = [[NSBundle mainBundle] URLForResource:docName withExtension:@"pdf"];
+        Document* doc = [[[Document alloc] init] autorelease];
+        doc.filename = [docUrl path];
+        
+        DocumentSearchOperation* searchOperation = [[[DocumentSearchOperation alloc] initWithSearchUUID:uuid documentToSearch:doc searchPhrase:@"test" delegate:self] autorelease];
+        [self.documentSearchOperations addOperation:searchOperation];
+    }
+    
+    // Also start the search in the currently open document immediately
+    [self.pdfvc searchForString:@"test" animated:NO];
+    [self.pdfvc.searchButtonItem dismissAnimated:NO];
+    [self.pdfvc.searchButtonItem presentAnimated:YES sender:self.pdfvc.searchButtonItem];
+    
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.labelText = [NSString stringWithFormat:@"Searching... (%d operations active)", self.documentSearchOperations.operationCount];
+}
+
+#pragma mark - DocumentSearchOperationDelegate
+
+
+- (void) updateSearchResultsWithOperation:(DocumentSearchOperation *)operation withSearchId:(NSString *)searchId withResults:(NSArray *)searchResults completed:(BOOL)completed interrupted:(BOOL)interrupted
+{
+    assert( [NSThread isMainThread] );
+    
+    if ( searchResults.count > 0 )
+    {
+        NSLog(@"Found an instance of the string in a document");
+//        SearchResult* result = nil;
+//        for ( result in _searchResultRows )
+//        {
+//            if ( [result.document isEqual:operation.documentToSearch] )
+//            {
+//                // The same document. Simply update matches count
+//                if ( completed || result.interrupted )
+//                {
+//                    result.numberOfMatchesFound = searchResults.count;
+//                    result.interrupted = NO;
+//                }
+//                else
+//                {
+//                    // Until search is complete updates are incremental
+//                    result.numberOfMatchesFound += searchResults.count;
+//                }
+//                PSPDFSearchResult* firstMatch = [searchResults objectAtIndex:0];
+//                if ( result.firstOccurencePageHint == 0 )
+//                {
+//                    [NSNumber numberWithUnsignedInteger:firstMatch.pageIndex];
+//                }
+//                result.searchComplete = completed;
+//                result.interrupted = interrupted;
+//                break;
+//            }
+//        }
+//        
+//        if ( result == nil )
+//        {
+//            // Document didn't appear before.
+//            result = [SearchResult searchResultWithDocument:operation.documentToSearch andNumberOfMatches:searchResults.count searchComplete:completed];
+//            PSPDFSearchResult* firstMatch = [searchResults objectAtIndex:0];
+//            result.firstOccurencePageHint = [NSNumber numberWithUnsignedInteger:firstMatch.pageIndex];
+//            [_searchResultRows addObject:result];
+//        }
+//        
+//        self.searchResultDocumentArray = _searchResultRows;
+//        [self.documentsTableView reloadData];
+    }
+}
+
+- (void) documentSearchOperation:(DocumentSearchOperation *)operation didFinishSearch:(NSString *)searchId withResults:(NSArray *)searchResults earlyTermination:(BOOL)earlyTermination lastPageSearched:(unsigned int)lastPageSearched
+{
+//    if ( earlyTermination )
+//    {
+//        if ( [operation.searchUUID isEqualToString:self.currentSearchUUID] )
+//        {
+//            // The operation should continue from the last page searched. Re-queue
+//            [self updateSearchResultsWithOperation:operation withSearchId:searchId withResults:searchResults completed:NO interrupted:YES];
+//            
+//            DocumentSearchOperation* searchOperation = [[[DocumentSearchOperation alloc] initWithSearchUUID:operation.searchUUID documentToSearch:operation.documentToSearch
+//                                                                                               searchPhrase:operation.searchPhrase delegate:self] autorelease];
+//            searchOperation.performQuickSearchOnly = NO;
+//            [self.documentSearchOperations addOperation:searchOperation];
+//        }
+//    }
+//    else
+//    {
+//        // We're done
+//        [self updateSearchResultsWithOperation:operation withSearchId:searchId withResults:searchResults completed:YES interrupted:NO];
+//    }
+}
+
+- (void) documentSearchOperation:(DocumentSearchOperation *)operation didUpdateSearch:(NSString *)searchId withResults:(NSArray *)searchResults
+{
+
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ( object == self.documentSearchOperations && [keyPath isEqualToString:@"operationCount"] )
+    {
+        // Operation count changed
+        BOOL searchActive = self.documentSearchOperations.operationCount > 0;
+        
+        if ( !searchActive )
+        {
+            [self.hud hide:YES];
+            return;
+        }
+        
+        self.hud.labelText = [NSString stringWithFormat:@"Searching... (%d operations active)", self.documentSearchOperations.operationCount];
     }
 }
 
