@@ -8,6 +8,7 @@
 #import "PSPDFKitGlobal.h"
 #import "PSPDFMemoryCache.h"
 #import "PSPDFDiskCache.h"
+#import "PSPDFRenderQueue.h"
 
 @class PSPDFDocument, PSPDFRenderReceipt;
 
@@ -44,7 +45,7 @@ typedef NS_OPTIONS(NSUInteger, PSPDFCacheOptions) {
     PSPDFCacheOptionMemoryStoreIfVisible      = 0,       // Default. Store into the memory cache if document is visible.
     PSPDFCacheOptionMemoryStoreAlways         = 1,       // Always store into the memory cache.
     PSPDFCacheOptionMemoryStoreNever          = 2,       // Never store into memory cache (unless it's already there)
-    
+
     PSPDFCacheOptionDiskLoadAsyncAndPreload   = 0 << 3,  // Default. Queue disk load and preload.
     PSPDFCacheOptionDiskLoadAsync             = 1 << 3,  // Queue disk load, don't decompress JPG.
     PSPDFCacheOptionDiskLoadSyncAndPreload    = 2 << 3,  // Load image on current thread + decompress.
@@ -66,15 +67,11 @@ typedef NS_OPTIONS(NSUInteger, PSPDFCacheOptions) {
     PSPDFCacheOptionSizeAllowLargerScaleAsync = 4 << 12,  // Resizes the image if size is substantially different, async.
     PSPDFCacheOptionSizeGetLargestAvailable   = 5 << 12,  // Returns the largest available image.
     PSPDFCacheOptionSizeAllowSmaller          = 6 << 12,  // Returns an image equal to or smaller to given size.
-
-    PSPDFCacheOptionAnnotationsDefault        = 0 << 15,  // Doesn't draw annotations that are isOverlay = YES
-    PSDPFCacheOptionAnnotationsFlattenOverlay = 1 << 15,  // Will draw overlay annotations (useful for thumbnails)
-    PSPDFCacheOptionAnnotationsNone           = 2 << 15   // Don't draw any annotations.
 };
 
 /// This singleton manages both memory and disk cache, and adds new render requests to PSPDFRenderQueue.
 /// Most settings are device dependant.
-@interface PSPDFCache : NSObject
+@interface PSPDFCache : NSObject <PSPDFRenderDelegate>
 
 /// The cache object is a singleton.
 + (instancetype)sharedCache;

@@ -9,7 +9,7 @@
 
 @class PSPDFTextSearch, PSPDFTextParser, PSPDFDocumentParser, PSPDFOutlineParser, PSPDFAnnotationParser, PSPDFDocumentProvider, PSPDFLabelParser, PSPDFDocument, PSPDFPageInfo;
 
-/// Delegate for writing annotations. 
+/// Delegate for writing annotations.
 @protocol PSPDFDocumentProviderDelegate <NSObject>
 
 @optional
@@ -58,14 +58,14 @@
 /// Delegate for writing annotations. Is set to PSPDFDocument per default.
 @property (nonatomic, weak) id<PSPDFDocumentProviderDelegate> delegate;
 
-/// Access the CGPDFDocumentRef and locks the internal document. 
+/// Access the CGPDFDocumentRef and locks the internal document.
 ///
 /// Increases the internal reference count
 /// We need to keep around the document when accessing a CGPDFPage. Retaining the page alone is not enough.
 - (CGPDFDocumentRef)requestDocumentRefWithOwner:(id)owner;
 
 /// Releases the lock on the documentRef.
-/// Note: the parameter is to *check* if the returned documentRef is the same as the internal one.
+/// @note The parameter is to *check* if the returned documentRef is the same as the internal one.
 - (void)releaseDocumentRef:(CGPDFDocumentRef)documentRef withOwner:(id)owner;
 
 /// Use documentRef within the block. Will be automatically cleaned up.
@@ -79,7 +79,7 @@
 - (CGPDFPageRef)requestPageRefForPageNumber:(NSUInteger)page error:(NSError **)error;
 - (CGPDFPageRef)requestPageRefForPageNumber:(NSUInteger)page;
 
-/// Releases a page reference. 
+/// Releases a page reference.
 - (void)releasePageRef:(CGPDFPageRef)pageRef;
 
 /// For optimization reasons, the internal documentRef might be cached.
@@ -145,7 +145,7 @@
 @property (nonatomic, assign, readonly, getter=isMetadataLoaded) BOOL metadataLoaded;
 
 /// Access the PDF title. (".pdf" will be truncated)
-/// Note: if there's no title in the PDF metadata, the file name will be used.
+/// @note If there's no title in the PDF metadata, the file name will be used.
 @property (nonatomic, copy, readonly) NSString *title;
 
 /// Return a textParser for the specific document page. Page starts at 0.
@@ -194,5 +194,9 @@
 /// Cached rotation and aspect ratio data for specific page. Page starts at 0.
 /// You can override this if you need to manually change the rotation value of a page.
 - (PSPDFPageInfo *)pageInfoForPage:(NSUInteger)page pageRef:(CGPDFPageRef)pageRef;
+
+/// Resolves a path like /localhost/Library/test.pdf into a full path.
+- (NSString *)resolveTokenizedPath:(NSString *)path;
+- (NSURL *)URLForTokenizedPath:(NSString *)path;
 
 @end

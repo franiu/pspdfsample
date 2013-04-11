@@ -29,17 +29,27 @@ typedef NS_OPTIONS(NSUInteger, PSPDFTextCheckingType) {
     PSPDFTextCheckingTypeAll         = UINT_MAX
 };
 
+// Menu options when text is selected on this document.
+typedef NS_OPTIONS(NSUInteger, PSPDFDocumentMenuAction) {
+    PSPDFDocumentMenuActionSearch,
+    PSPDFDocumentMenuActionDefine,
+    PSPDFDocumentMenuActionWikipediaAsFallback // Only displayed if Define fails/is missing.
+};
+
+// Called before the document starts to save annotations. Use to save any unsaved changes.
+extern NSString *const PSPDFDocumentWillSaveNotification;
+
 /**
  PSPDFDocument represents a single document for the user.
  Internally it might come from several different sources, files or data.
- 
+
  Ensure that a document is only opened within *one* PSPDFViewController at a time.
  Documents fully support copy or serialization.
- 
+
  To speed up PSPDFViewController display, you can invoke fillCache on any thread. Most methods are thread safe. If you change settings here while the document is already being displayed, you most likely need to call reloadData on  PSPDFViewController to refresh.
- 
+
  Remember that rendered images of PSPDFDocument will be cached using PSPDFCache. If you replace/modify a PDF that has already been cached, you need to clear the cache for that document.
- 
+
  PSPDFDocument is the default delegate for PSPDFDocumentProviderDelegate.
  */
 @interface PSPDFDocument : NSObject <NSCopying, NSCoding, PSPDFDocumentProviderDelegate>
@@ -93,7 +103,7 @@ typedef NS_OPTIONS(NSUInteger, PSPDFTextCheckingType) {
 - (void)appendFile:(NSString *)file;
 
 /// Returns path for a single page (in case pages are split up). Page starts at 0.
-/// Note: uses fileIndexForPage and URLForFileIndex internally. Override those instead of pathForPage.
+/// @note Uses fileIndexForPage and URLForFileIndex internally. Override those instead of pathForPage.
 - (NSURL *)pathForPage:(NSUInteger)page;
 
 /// Returns position of the internal file array.
@@ -110,7 +120,7 @@ typedef NS_OPTIONS(NSUInteger, PSPDFTextCheckingType) {
  Memory-maps files; works with all available input types.
  If there's no file name, we use the PDF title or "Untitled PDF" if all fails.
  Uses PSPDFDocumentProviders dataRepresentationWithError. Errors are only logged.
- 
+
  Returns an ordered NSDictionary (PSPDFOrderedDictionary).
  */
 - (NSDictionary *)fileNamesWithDataDictionary;
@@ -124,7 +134,7 @@ typedef NS_OPTIONS(NSUInteger, PSPDFTextCheckingType) {
 
 /// Array of NSString pdf files. If basePath is set, this will be combined with the file name.
 /// If basePath is not set, add the full path (as NSString) to the files.
-/// Note: it's currently not possible to add the file multiple times, this will fail to display correctly.
+/// @note It's currently not possible to add the file multiple times, this will fail to display correctly.
 @property (nonatomic, copy) NSArray *files;
 
 /// Usually, you have one single file URL representing the pdf. This is a shortcut setter for basePath* files. Overrides all current settings if set.
@@ -136,8 +146,8 @@ typedef NS_OPTIONS(NSUInteger, PSPDFTextCheckingType) {
 @property (nonatomic, copy, readonly) NSData *data;
 
 /// A document can also have multiple NSData objects.
-/// Note: If writing annotations is enabled, the dataArray's content will change after a save.
-@property (nonatomic, copy, readonly) NSArray *dataArray;
+/// @note If writing annotations is enabled, the dataArray's content will change after a save.
+@property (atomic, copy, readonly) NSArray *dataArray;
 
 /// PDF dataProvider (can be used to dynamically decrypt a document). Will be retained when set.
 @property (nonatomic, assign, readonly) CGDataProviderRef dataProvider;
@@ -164,32 +174,28 @@ typedef NS_OPTIONS(NSUInteger, PSPDFTextCheckingType) {
 /// @name Annotations
 
 /// Annotation link extraction. Defaults to YES.
+/// @note This will disable the creation of the PSPDFAnnotationParser and will automatically return nil on `editableAnnotationTypes`.
 @property (nonatomic, assign, getter=isAnnotationsEnabled) BOOL annotationsEnabled;
 
 /**
  Defines the annotations that can be edited (if annotationsEnabled is set to YES)
  Set this to an empty set to disable annotation editing/creation.
- 
+
  Defaults to all available STRING constants (PSPDFAnnotationTypeStringHighlight, PSPDFAnnotationTypeStringInk, etc).
- 
+
  Since PSPDFKit 2.8, this now is an ordered set - the order will change the button order in the toolbar and the page menu.
- 
- @warning Some annotation types are only behaviorally different in PSPDFKit but in are mapped to basic annotation types, so adding those will only change the creation of those types, not editing. Example: If you add PSPDFAnnotationTypeStringInk but not PSPDFAnnotationTypeStringSignature, signatures added in previous session will still be editable (since they are Ink annotations). On the other hand, if you set PSPDFAnnotationTypeStringSignature but not PSPDFAnnotationTypeStringInk, then your newly created signatures will not be movable. See PSPDFAnnotation.h for comments 
+
+ @warning Some annotation types are only behaviorally different in PSPDFKit but in are mapped to basic annotation types, so adding those will only change the creation of those types, not editing. Example: If you add PSPDFAnnotationTypeStringInk but not PSPDFAnnotationTypeStringSignature, signatures added in previous session will still be editable (since they are Ink annotations). On the other hand, if you set PSPDFAnnotationTypeStringSignature but not PSPDFAnnotationTypeStringInk, then your newly created signatures will not be movable. See PSPDFAnnotation.h for comments
 */
 @property (nonatomic, copy) NSOrderedSet *editableAnnotationTypes;
 
 /// Can PDF annotations be embedded?
-/// Note: only evaluates the first file if multiple files are set.
+/// @note Only evaluates the first file if multiple files are set.
 /// This might block for a while since the PDF needs to be parsed to determine this.
 @property (nonatomic, assign, readonly) BOOL canEmbedAnnotations;
 
-/**
- Control if and where custom created PSPDFAnnotations are saved.
- Defaults to PSPDFAnnotationSaveModeEmbeddedWithExternalFileAsFallback.
- 
- Note: Currently PSPDFLinkAnnotations cannot be saved.
- (See editableAnnotationTypes for annotations that can be written)
-*/
+/// Control if and where custom created PSPDFAnnotations are saved.
+/// Possible options are PSPDFAnnotationSaveModeDisabled, PSPDFAnnotationSaveModeExternalFile, PSPDFAnnotationSaveModeEmbedded and PSPDFAnnotationSaveModeEmbeddedWithExternalFileAsFallback. (default)
 @property (nonatomic, assign) PSPDFAnnotationSaveMode annotationSaveMode;
 
 /// Default annotation username. Defaults to nil.
@@ -198,10 +204,10 @@ typedef NS_OPTIONS(NSUInteger, PSPDFTextCheckingType) {
 
 /**
  Saves changed annotations back into the PDF sources (files/data).
- 
+
  Returns NO if annotations cannot be embedded. Then most likely error is set.
  Returns YES if there are no annotations that need to be saved.
- 
+
  Only available in PSPDFKit Annotate.
  */
 - (BOOL)saveChangedAnnotationsWithError:(NSError **)error;
@@ -211,7 +217,7 @@ typedef NS_OPTIONS(NSUInteger, PSPDFTextCheckingType) {
 
 /// Link annotation parser class for current document.
 /// Can be overridden to use a subclassed annotation parser.
-/// Note: Only returns the parser for the first PDF file.
+/// @note Only returns the parser for the first PDF file.
 @property (nonatomic, strong, readonly) PSPDFAnnotationParser *annotationParser;
 
 /**
@@ -227,7 +233,12 @@ typedef NS_OPTIONS(NSUInteger, PSPDFTextCheckingType) {
 /// Shorthand accessor that compensates the page. See PSPDFAnnotationParser for details.
 - (void)addAnnotations:(NSArray *)annotations forPage:(NSUInteger)page;
 
-/// Get all annotations of all documentProviders.
+/**
+ Returns all annotations of all documentProviders.
+
+ Returns dictionary NSNumber->NSArray. Only adds entries for a page if there are annotations.
+ @warning This might take some time if the annotation cache hasn't been built yet.
+ */
 - (NSDictionary *)allAnnotationsOfType:(PSPDFAnnotationType)annotationType;
 
 /**
@@ -249,14 +260,9 @@ typedef NS_OPTIONS(NSUInteger, PSPDFTextCheckingType) {
 /// Might need file operations to parse the document (slow)
 @property (nonatomic, assign, readonly) NSUInteger pageCount;
 
-/**
- Limit pages to a certain page range.
-
- If document has a pageRange set, the visible pages can be limited to a certain subset.
- Defaults to nil.
-
- @warning This is still an experimental feature and doesn't yet support multiple document sources. Changing this will require a reloadData on the PSPDFViewController and also a clearCache for this document (as the cached pages will be different after changing this!)
- */
+/// Limit pages to a certain page range.
+/// If document has a pageRange set, the visible pages can be limited to a certain subset. Defaults to nil.
+/// @warning Changing this will require a reloadData on the PSPDFViewController and also a clearCache for this document (as the cached pages will be different after changing this!)
 @property (nonatomic, copy) NSIndexSet *pageRange;
 
 /// Return PDF page number (PDF pages start at 1).
@@ -290,7 +296,7 @@ typedef NS_OPTIONS(NSUInteger, PSPDFTextCheckingType) {
 
 /// Scan the whole document and analyzes if the aspect ratio is equal or not.
 /// If this returns 0 or a very small value, it's perfectly suitable for pageCurl.
-/// Note: this might take a second on larger documents, as the page structure needs to be parsed.
+/// @note this might take a second on larger documents, as the page structure needs to be parsed.
 - (CGFloat)aspectRatioVariance;
 
 
@@ -300,7 +306,7 @@ typedef NS_OPTIONS(NSUInteger, PSPDFTextCheckingType) {
  Will clear all cached objects (annotations, pageCount, ouline, textParser, ...)
 
  This is called implicitly if you change the files array or append a file.
- 
+
  Important! Unless you disable it, PSPDFKit also has an image cache who is not affected by this. If you replace the PDF document with new content, you also need to clear the image cache:
  [[PSPDFCache sharedCache] removeCacheForDocument:document deleteDocument:NO error:NULL];
  */
@@ -333,6 +339,7 @@ typedef NS_OPTIONS(NSUInteger, PSPDFTextCheckingType) {
 @property (atomic, weak) PSPDFViewController *displayingPdfController;
 
 /// Currently displayed page. Updated by PSPDFViewController. Used to make the memory cache smarter.
+/// Set to NSNotFound if no controller displays the document.
 @property (atomic, assign, readonly) NSUInteger displayingPage;
 
 /// @name Password Protection and Security
@@ -340,19 +347,19 @@ typedef NS_OPTIONS(NSUInteger, PSPDFTextCheckingType) {
 /**
  Unlock documents with a password.
  Only saves the password if unlocking was successful (vs setPassword that saves the password always)
- 
+
  If the password is correct, this method returns YES. Once unlocked, you cannot use this function to relock the document.
 
  If you attempt to unlock an already unlocked document, one of the following occurs:
  If the document is unlocked with full owner permissions, unlockWithPassword: does nothing and returns YES. The password string is ignored.
  If the document is unlocked with only user permissions, unlockWithPassword attempts to obtain full owner permissions with the password string.
  If the string fails, the document maintains its user permissions. In either case, this method returns YES.
- 
+
  After unlocking a document, you need to call reloadData on the PSPDFViewController.
- 
+
  If you're using multiple files or appendFile, all new files will be unlocked with the password.
  This doesn't harm if the document is already unlocked.
- 
+
  If you have a mixture of files with multiple different passwords, you need to subclass didCreateDocumentProvider: and unlock the documentProvider directly there.
  */
 - (BOOL)unlockWithPassword:(NSString *)password;
@@ -366,27 +373,32 @@ typedef NS_OPTIONS(NSUInteger, PSPDFTextCheckingType) {
 /// Might need file operations to parse the document (slow)
 @property (nonatomic, assign, readonly, getter=isValid) BOOL valid;
 
-/// Do the PDF digital right allow for printing?
-/// Note: only evaluates the first file if multiple files are set.
-@property (nonatomic, assign, readonly) BOOL allowsPrinting;
-
 /// Was the PDF file encrypted at file creation time?
-/// Note: only evaluates the first file if multiple files are set.
+/// @note Only evaluates the first file if multiple files are set.
 @property (nonatomic, assign, readonly) BOOL isEncrypted;
 
 /// Name of the encryption filter used, e.g. Adobe.APS. If this is set, the document can't be unlocked.
 /// See "Adobe LifeCycle DRM, http://www.adobe.com/products/livecycle/rightsmanagement
-/// Note: only evaluates the first file if multiple files are set.
+/// @note Only evaluates the first file if multiple files are set.
 @property (nonatomic, copy, readonly) NSString *encryptionFilter;
 
 /// Has the PDF file been unlocked? (is it still locked?).
-/// Note: only evaluates the first file if multiple files are set.
+/// @note Only evaluates the first file if multiple files are set.
 @property (nonatomic, assign, readonly) BOOL isLocked;
 
+/// Do the PDF digital right allow for printing?
+/// @note Only evaluates the first file if multiple files are set.
+@property (nonatomic, assign, readonly) BOOL allowsPrinting;
+
 /// A flag that indicates whether copying text is allowed
-/// Note: only evaluates the first file if multiple files are set.
+/// @note Only evaluates the first file if multiple files are set.
 /// Can also be overridden manually.
 @property (nonatomic, assign) BOOL allowsCopying;
+
+/// Allows to customize other displayed menu actions when text is selected.
+/// Defaults to PSPDFDocumentMenuActionSearch|PSPDFDocumentMenuActionDefine|PSPDFDocumentMenuActionWikipediaAsFallback
+/// @note This is no flag that gets parsed from the document (like allowsCopying) but seems to be  a better fit here than on the controller, since almost all menu related options are controller from the document.
+@property (nonatomic, assign) PSPDFDocumentMenuAction allowedMenuActions;
 
 
 /// @name Attached Parsers
@@ -414,7 +426,7 @@ typedef NS_OPTIONS(NSUInteger, PSPDFTextCheckingType) {
 - (NSUInteger)pageOffsetForDocumentProvider:(PSPDFDocumentProvider *)documentProvider;
 
 /// Get an array of documentProviders to easily manage documents with multiple files.
-@property (nonatomic, copy, readonly) NSArray *documentProviders;
+- (NSArray *)documentProviders;
 
 /// Document Parser is per file, so might return the same parser for different pages.
 /// (But we need to check as a PSPDFDocument can contain multiple files)
@@ -424,13 +436,20 @@ typedef NS_OPTIONS(NSUInteger, PSPDFTextCheckingType) {
 /// @warning Only returns the parser for the first PDF file.
 @property (nonatomic, strong, readonly) PSPDFOutlineParser *outlineParser;
 
+/// Globally enable/disable bookmarks. Defaults to YES.
+@property (nonatomic, assign, getter=isBookmarksEnabled) BOOL bookmarksEnabled;
+
 /// Accesses the bookmark parser.
 /// Bookmarks are handled on document level, not on documentProvider.
 @property (nonatomic, strong) PSPDFBookmarkParser *bookmarkParser;
 
+/// Set to NO to disable the custom PDF page labels and simply use page numbers. Defaults to YES.
+@property (nonatomic, assign) BOOL pageLabelsEnabled;
+
 /// Page labels (NSString) for the current document.
 /// Might be nil if PageLabels isn't set in the PDF.
 /// If substituteWithPlainLabel is set to YES then this always returns a valid string.
+/// @note If `pageLabelsEnabled` is set to NO, then this method will either return nil or the plain label if `substite` is YES.
 - (NSString *)pageLabelForPage:(NSUInteger)page substituteWithPlainLabel:(BOOL)substite;
 
 /// Find page of a pageLabel.
@@ -443,17 +462,17 @@ extern NSString *const kPSPDFPreserveAspectRatio;     // If added to options, th
 extern NSString *const kPSPDFIgnoreDisplaySettings;   // Always draw pixels with a 1.0 scale.
 
 /// Renders the page or a part of it with default display settings into a new image.
-/// @param fullSize		 The size of the page, in pixels, if it was rendered without clipping
-/// @param clippedToRect A rectangle, relative to fullSize, that specifies the area of the page that should be rendered. CGRectZero = automatic.
+/// @param size          The size of the page, in pixels, if it was rendered without clipping
+/// @param clippedToRect A rectangle, relative to size, that specifies the area of the page that should be rendered. CGRectZero = automatic.
 /// @param annotations   Annotations that should be rendered with the view
 /// @param options       Dictionary with options that modify the render process (see PSPDFPageRenderer)
 /// @param receit        Returns the render receipt for the render action.
 /// @param error         Returns an error object. (then image will be nil)
 /// @return              A new UIImage with the rendered page content
-- (UIImage *)renderImageForPage:(NSUInteger)page withSize:(CGSize)fullSize clippedToRect:(CGRect)clipRect withAnnotations:(NSArray *)annotations options:(NSDictionary *)options receipt:(PSPDFRenderReceipt **)receipt error:(NSError **)error;
+- (UIImage *)renderImageForPage:(NSUInteger)page withSize:(CGSize)size clippedToRect:(CGRect)clipRect withAnnotations:(NSArray *)annotations options:(NSDictionary *)options receipt:(PSPDFRenderReceipt **)receipt error:(NSError **)error;
 
 // Shorthand method.
-- (UIImage *)renderImageForPage:(NSUInteger)page withSize:(CGSize)fullSize clippedToRect:(CGRect)clipRect withAnnotations:(NSArray *)annotations options:(NSDictionary *)options;
+- (UIImage *)renderImageForPage:(NSUInteger)page withSize:(CGSize)size clippedToRect:(CGRect)clipRect withAnnotations:(NSArray *)annotations options:(NSDictionary *)options;
 
 /// Draw a page into a specified context.
 /// If for some reason renderPage: doesn't return a Render Receipt, an error occured.
@@ -513,13 +532,12 @@ extern NSString *const kPSPDFImages;
 /// e.g. add an entry of [PSPDFAnnotationParser class] / [MyCustomAnnotationParser class] as key/value pair to use the custom subclass. (MyCustomAnnotationParser must be a subclass of PSPDFAnnotationParser)
 /// Throws an exception if the overriding class is not a subclass of the overridden class.
 /// Hide the warning "Incompatible pointer types sending 'Class' to parameter of type 'id<NSCopying>' " with casting class to (id). It's perfectly safe to do so. Alternatively you can also use NSStrings.
-/// Note: does not get serialized when saved to disk.
+/// @note Does not get serialized when saved to disk.
 @property (nonatomic, copy) NSDictionary *overrideClassNames;
 
 /// Hook to modify/return a different document provider. Called each time a documentProvider is created (which is usually on first access, and cached afterwards)
 /// During PSPDFDocument lifetime, document providers might be created at any time, lazily, and destroyed when memory is low.
 /// This might be used to change the delegate of the PSPDFDocumentProvider.
-/// Don't forget calling super on this!
 - (PSPDFDocumentProvider *)didCreateDocumentProvider:(PSPDFDocumentProvider *)documentProvider;
 
 /// Register a block that is called in didCreateDocumentProvider.
@@ -528,23 +546,23 @@ extern NSString *const kPSPDFImages;
 /**
  Return URL to a thumbnail/full sized image (png; jpg preferred). Use this if you want to pre-supply rendered images.
  Returns nil in the default implementation.
- 
+
  Replaces thumbnailPathForPage from PSPDFKit v1.
- 
+
  For example, you can use the fully pre-rendered images from the iPhone Simulator (or iPad) and copy them into your bundle.
  Then, you write a method that returns the file URL for those files.
-    
+
  In PSPDFKit, files have the name "p1" (PSPDFSizeNative), "t1" (PSPDFSizeThumbnail) or "y1" (PSPDFSizeTiny).
  The '1' is the first page. Careful; the accessor here is zero-based.
  (So page:0 andSize:PSPDFSizeNative would map to the file "p1.jpg".
- 
+
  There are additional checks in place, if the URL you're returning is invalid the image will be rendered on the fly.
 */
 - (NSURL *)cachedImageURLForPage:(NSUInteger)page andSize:(PSPDFSize)size;
 
 /// Can be overridden to provide custom text. Defaults to nil.
 /// if this returns nil for a site, we'll try to extract text ourselves.
-/// Note: If you return text here, text highlighting cannot be used for this page.
+/// @note If you return text here, text highlighting cannot be used for this page.
 - (NSString *)pageContentForPage:(NSUInteger)page;
 
 /// Override if you want custom *page* background colors. Only displayed while loading, and when no thumbnail is yet available. Defaults to backgroundColor.
@@ -578,6 +596,13 @@ extern NSString *const kPSPDFMetadataKeyCreationDate;
 extern NSString *const kPSPDFMetadataKeyModDate;
 extern NSString *const kPSPDFMetadataKeyTrapped;
 
+@interface PSPDFDocument (SubclassingHooks)
+
+// Override to customize file name for the send via email feature.
+- (NSString *)fileNameForIndex:(NSUInteger)fileIndex;
+
+@end
+
 @interface PSPDFDocument (Deprecated)
 
 typedef NSInteger PSPDFCacheStrategy;
@@ -585,6 +610,6 @@ typedef NSInteger PSPDFCacheStrategy;
 #define PSPDFCacheThumbnails 1
 #define PSPDFCacheThumbnailsAndNearPages 2
 #define PSPDFCacheOpportunistic 2
-@property (nonatomic, assign) PSPDFCacheStrategy cacheStrategy __attribute__ ((deprecated));
+@property (nonatomic, assign) PSPDFCacheStrategy cacheStrategy __attribute__ ((deprecated("Use diskCacheStragegy instead")));
 
 @end

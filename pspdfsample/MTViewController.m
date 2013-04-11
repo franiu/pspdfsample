@@ -65,7 +65,9 @@
     
     kPSPDFLogLevel = PSPDFLogLevelInfo;
     
+    
     NSURL* docUrl = [[NSBundle mainBundle] URLForResource:self.documentNames[_documentIndex++] withExtension:@"pdf"];
+
     DvPdfDocument* pdfDocument = [DvPdfDocument PDFDocumentWithURL:docUrl];
     pdfDocument.annotationSaveMode = PSPDFAnnotationSaveModeExternalFile;
 
@@ -101,6 +103,7 @@
     }
     
     // Create a new PDF view controller
+    self.pdfvc = nil;
     self.pdfvc = [[[DvPdfViewController alloc] initWithDocument:pdfDocument] autorelease];
     
     // Setup the look and feel
@@ -121,6 +124,9 @@
     self.pdfvc.delegate = self;
     self.pdfvc.tintColor = self.toolbar.tintColor;
     self.pdfvc.pageMode = PSPDFPageModeSingle;
+    self.pdfvc.leftBarButtonItems = nil;
+    self.pdfvc.rightBarButtonItems = nil;
+    self.pdfvc.shouldHideStatusBarWithHUD = NO;
     
     NSMutableArray* items = [[self.bottomToolbar.items mutableCopy] autorelease];
     
@@ -178,7 +184,7 @@
 
     self.documentIndex = 0;
     
-    self.documentNames = @[@"DevelopersGuide", @"yahtzee", @"CodeCharts"];
+    self.documentNames = @[@"yahtzee",@"DevelopersGuide"];
 
     [self toggleDocuments];
 }

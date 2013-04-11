@@ -6,6 +6,7 @@
 //
 
 #import "PSPDFKitGlobal.h"
+#import "PSPDFShapeAnnotation.h"
 #import <QuartzCore/QuartzCore.h>
 
 @class PSPDFDrawView, PSPDFDrawAction;
@@ -18,7 +19,7 @@
 /// Draw View did begin (touching down)
 - (void)drawViewDidBeginDrawing:(PSPDFDrawView *)drawView;
 
-/// New line has been added.
+/// New sketch, shape or line has been added.
 - (void)drawView:(PSPDFDrawView *)drawView didChange:(PSPDFDrawAction *)drawAction;
 
 @end
@@ -32,17 +33,12 @@
 /// Current stroke color.
 @property (nonatomic, strong) UIColor *strokeColor;
 
-/// Path of the whole draw operation.
+/// Path of the current draw operation.
 @property (nonatomic, strong, readonly) UIBezierPath *path;
-
-// Used in linesDictionary array.
-extern NSString *const kPSPDFPointsKey;
-extern NSString *const kPSPDFWidthKey;
-extern NSString *const kPSPDFColorKey;
 
 /// Array of dictionaries of all lines, including color and width used.
 /// If you want to create a PSPDFInkAnnotation from this, convert the points to PDF coordinates first.
-@property (nonatomic, strong, readonly) NSArray *linesDictionaries;
+@property (nonatomic, strong, readonly) NSArray *actionList;
 
 /// Draw view zoom scale. Defaults to 1. Increase to allow sharp rendering when zoomed in.
 /// @warning Allows maximum zoomScale of 5. Will be disabled for older devices (iPad1)
@@ -52,8 +48,17 @@ extern NSString *const kPSPDFColorKey;
 /// Used to compute approximate line widths during drawing.
 @property (nonatomic, assign) CGFloat scale;
 
+/// Current annotation type.
+@property (nonatomic, assign) PSPDFAnnotationType annotationType;
+
+/// Current shape annotation type (to be specified when annotationType is PSPDFAnnotationTypeShape).
+@property (nonatomic, assign) PSPDFShapeAnnotationType shapeType;
+
 /// Draw Delegate.
 @property (atomic, weak) IBOutlet id<PSPDFDrawViewDelegate> delegate;
+
+
+/// @name Undo/Redo
 
 /// Undo possible?
 - (BOOL)canUndo;
@@ -71,25 +76,22 @@ extern NSString *const kPSPDFColorKey;
 
 @interface PSPDFDrawView (SubclassingHooks)
 
-// For a fast drawing preview.
+// Current active drawing.
 @property (nonatomic, strong, readonly) CAShapeLayer *shapeLayer;
-
-// Drawings are cached.
-@property (nonatomic, strong) UIImage *currentImage;
 
 @end
 
 
-// Single draw action. (saved for undo/redo)
+// Single draw action.
 @interface PSPDFDrawAction : NSObject
 
 // Points that are in this drawing action.
-@property (nonatomic, copy) NSArray *points;
+@property (nonatomic, copy, readonly) NSArray *points;
 
-// Designated initializer.
-- (id)initWithPoints:(NSArray *)pointArray path:(UIBezierPath *)bezierPath type:(NSString *)actionType strokeColor:(UIColor *)color lineWidth:(CGFloat)width;
+// Stroke color.
+@property (nonatomic, strong, readonly) UIColor *strokeColor;
 
-// Apply action to the current UI image context.
-- (void)apply;
+// Line width.
+@property (nonatomic, assign, readonly) CGFloat lineWidth;
 
 @end

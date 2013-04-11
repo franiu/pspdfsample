@@ -31,27 +31,39 @@ typedef NS_ENUM(NSUInteger, PSPDFRenderQueuePriority) {
 /// Render Queue is a singleton.
 + (instancetype)sharedRenderQueue;
 
+/// @name Requests
+
 /// Requests a (freshly) rendered image from a specified document. Does not use the file cache.
 /// For options, see PSPDFPageRender.
 /// IF `queueAsNext` is set, the request will be processed ASAP, skipping the current queue.
-- (PSPDFRenderJob *)requestRenderedImageForDocument:(PSPDFDocument *)document forPage:(NSUInteger)page withSize:(CGSize)size clippedToRect:(CGRect)clipRect withAnnotations:(NSArray *)annotations options:(NSDictionary *)options priority:(PSPDFRenderQueuePriority)priority queueAsNext:(BOOL)queueAsNext delegate:(id<PSPDFRenderDelegate>)delegate;
+- (PSPDFRenderJob *)requestRenderedImageForDocument:(PSPDFDocument *)document andPage:(NSUInteger)page withSize:(CGSize)size clippedToRect:(CGRect)clipRect withAnnotations:(NSArray *)annotations options:(NSDictionary *)options priority:(PSPDFRenderQueuePriority)priority queueAsNext:(BOOL)queueAsNext delegate:(id<PSPDFRenderDelegate>)delegate;
 
-/// Cancel job.
-/// Use NSNotFound for `page` to delete all requests for the document.
-- (void)cancelRenderingForDocument:(PSPDFDocument *)document forPage:(NSUInteger)page delegate:(id<PSPDFRenderDelegate>)delegate async:(BOOL)async;
-
-/// Cancel all queued and running jobs.
-- (void)cancelAllJobs;
-
-/// Cancels all queued render-calls.
-/// Async will perform on the next thread. (don't use async in dealloc)
-- (void)cancelRenderingForDelegate:(id<PSPDFRenderDelegate>)delegate async:(BOOL)async;
+/// Return all queued jobs for the current `document` and `page`. (bound to `delegate`)
+- (NSArray *)renderJobsForDocument:(PSPDFDocument *)document andPage:(NSUInteger)page delegate:(id<PSPDFRenderDelegate>)delegate;
 
 /// Returns YES if currently a RenderJob is scheduled or running for delegate.
 - (BOOL)hasRenderJobsForDelegate:(id<PSPDFRenderDelegate>)delegate;
 
 /// Return how many jobs are currently queued.
 - (NSUInteger)numberOfQueuedJobs;
+
+/// @name Cancellation
+
+/// Cancel a single render job.
+/// @return YES if cancellation was successful, NO if not found.
+- (BOOL)cancelJob:(PSPDFRenderJob *)job onlyIfQueued:(BOOL)onlyIfQueued;
+
+/// Cancel all queued and running jobs.
+- (void)cancelAllJobs;
+
+/// Cancel job.
+/// Use NSNotFound for `page` to delete all requests for the document.
+- (void)cancelRenderingForDocument:(PSPDFDocument *)document andPage:(NSUInteger)page delegate:(id<PSPDFRenderDelegate>)delegate;
+
+/// Cancels all queued render-calls.
+- (void)cancelRenderingForDelegate:(id<PSPDFRenderDelegate>)delegate;
+
+/// @name Settings
 
 /// The minimum priority for requests. Defaults to PSPDFRenderQueuePriorityVeryLow.
 /// Set to PSPDFRenderQueuePriorityNormal to temporarily pause cache requests.
@@ -64,9 +76,9 @@ typedef NS_ENUM(NSUInteger, PSPDFRenderQueuePriority) {
 
 @interface PSPDFRenderJob : NSObject
 
+@property (nonatomic, strong, readonly) PSPDFDocument *document;
 @property (nonatomic, assign, readonly) NSUInteger page;
-@property (nonatomic, weak,   readonly) PSPDFDocument *document;
-@property (nonatomic, assign, readonly) CGSize fullSize;
+@property (nonatomic, assign, readonly) CGSize size;
 @property (nonatomic, assign, readonly) CGRect clipRect;
 @property (nonatomic, assign, readonly) float zoomScale;
 @property (nonatomic, copy,   readonly) NSArray *annotations;

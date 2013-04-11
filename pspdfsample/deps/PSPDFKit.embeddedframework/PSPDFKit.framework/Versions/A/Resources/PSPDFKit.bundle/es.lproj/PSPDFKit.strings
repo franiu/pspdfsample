@@ -12,11 +12,10 @@
 "Untitled" = "Sin título";
 "File Not Found" = "Archivo no encontrado";
 "Unnamed PDF" = "PDF sin nombre";
-"Go to %@" = "Ir a %@";
 "Page %d" = "Página %d";
 
 // toolbar
-"Table Of Contents" = "Índice";
+"Outline" = "Índice";
 "Search" = "Buscar";
 "Email" = "Email";
 "Email document" = "Mandar el documento por email";
@@ -35,6 +34,9 @@
 "No Applications found" = "Ninguna aplicación puede abrir el documento PDF.";
 "Print" = "Imprimir";
 "Annotations" = "Anotaciones";
+"No Annotations" = "Ninguna Anotación";
+"Bookmarks" = "Marcador";
+"No Bookmarks" = "Ningún Marcador";
 "Add Bookmark" = "Agregar marcador";
 "Remove Bookmark" = "Remover marcador";
 "Bookmark added" = "Marcador agregado";
@@ -43,9 +45,9 @@
 "Preparing..." = "Preparando…";
 
 // thumbnails
-"Bookmarked" = "Bookmarked";
-"Annotated" = "Annotated";
-"All" = "All";
+"Bookmarked" = "Marcadas";
+"Annotated" = "Anotadas";
+"All" = "Todas";
 
 // password
 "Unlock" = "Desbloquear";
@@ -95,8 +97,8 @@
 "Rainbow" = "Arco iris";
 "Monochrome" = "Monocromo";
 "Color..." = "Color…";
-"Border..." = "Border…";
-"Fill Color..." = "Fill Color…";
+"Border..." = "Borde…";
+"Fill Color..." = "Color De Relleno…";
 "Opacity..." = "Opacidad…";
 "Custom..." = "Personalizado…";
 "Thickness..." = "Espesor…";
@@ -115,6 +117,9 @@
 "Underline" = "Subrayar";
 "Strikeout" = "Tachar";
 "Sketch" = "Dibujar";
+"Rectangle" = "Rectángulo";
+"Ellipse" = "Elipse";
+"Line" = "Línea";
 "Signature" = "Firma";
 "Signatures" = "Firmas";
 "Stamp" = "Sello";
@@ -141,6 +146,23 @@
 "Low Quality" = "Baja Calidad";
 "Medium Quality" = "Media Calidad";
 "High Quality" = "Alta Calidad";
+"Clear All" = "Clear All";
+"Appearance" = "Appearance";
+"Appearance..." = "Appearance…";
+
+// line annotations
+"Start..." = "Start…";
+"End..." = "End…";
+"None" = "None";
+"ClosedArrow" = "Closed Arrow";
+"OpenArrow" = "Open Arrow";
+"Square" = "Square";
+"Circle" = "Circle";
+"Diamond" = "Diamond";
+"ROpenArrow" = "Reverse Open Arrow";
+"RClosedArrow" = "Reverse Closed Arrow";
+"Slash" = "Slash";
+"Butt" = "Butt";
 
 // link annotation editing
 "Create Link..." = "Crear enlace...";

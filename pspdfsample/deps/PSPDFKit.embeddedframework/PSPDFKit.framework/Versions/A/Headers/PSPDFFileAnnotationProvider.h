@@ -32,10 +32,10 @@
 
 /**
  You can add your own annotations (like videos, links) here.
- Note: Usually it's a better idea to implement a custom AnnotationProvider, but this is kept for backwards compatibility.
+ @note Usually it's a better idea to implement a custom AnnotationProvider, but this is kept for backwards compatibility.
 
  You will override any already set annotations, so if you want to mix in annotations from the PDF, use addAnnotations:forPage: instead.
- Note: Setting nil as annotations will re-evaluate the pdf for annotations on the next access. Use an empty array if you want to clear annotations instead.
+ Setting nil as annotations will re-evaluate the pdf for annotations on the next access. Use an empty array if you want to clear annotations instead.
 */
 - (void)setAnnotations:(NSArray *)annotations forPage:(NSUInteger)page;
 
@@ -47,14 +47,6 @@
 
 /// Try to load annotations from file and set them if successful.
 - (BOOL)tryLoadAnnotationsFromFileWithError:(NSError **)error;
-
-/// The fileType translation table is used when we encounter pspdfkit:// links.
-/// Maps e.g. "mpg" to PSPDFLinkAnnotationVideo.
-@property (nonatomic, copy) NSDictionary *fileTypeTranslationTable;
-
-/// Change the protocol that's used to parse pspdfkit-additions (links, audio, video)
-/// Defaults to 'pspdfkit://'.
-@property (nonatomic, copy) NSString *protocolString;
 
 /// Path where annotations are being saved if saving to external file is enabled.
 /// Default's to self.documentProvider.document.cacheDirectory + "annotations_%d.pspdfkit" (%d = number of the documentProvider)
@@ -83,13 +75,17 @@
 /// Resolves a PSPDFKit-style URL to the appropriate NSURL.
 + (NSURL *)resolvePath:(NSString *)path forDocument:(PSPDFDocument *)document page:(NSUInteger)page;
 
-/// filtered fileTypeTranslationTable that only returns video or audio elements.
-- (NSArray *)mediaFileTypes;
-
 /// Removes all annotations that are marked as deleted.
 - (NSUInteger)removeDeletedAnnotations;
 
 /// Ensure document/page references are set correctly before adding annotations. Used internally.
 - (void)updateAnnotationsPageAndDocumentReference:(NSArray *)annotations page:(NSUInteger)page;
+
+@end
+
+@interface PSPDFFileAnnotationProvider (Deprecated)
+
+@property (nonatomic, copy) NSString *protocolString __attribute__ ((deprecated("Set protocolString in the annotationParser.")));
+@property (nonatomic, copy) NSString *fileTypeTranslationTable __attribute__ ((deprecated("Set fileTypeTranslationTable in the annotationParser.")));
 
 @end

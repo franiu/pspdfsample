@@ -40,7 +40,7 @@
 @end
 
 /// If the cover option is set, this is showed until the play button is pressed.
-/// Note: doesn't work with overrideClassNames (since within an annotation view, we don't have a connection to the PSPDFViewController)
+/// @note doesn't work with overrideClassNames (since within an annotation view, we don't have a connection to the PSPDFViewController)
 @interface PSPDFVideoAnnotationCoverView : UIView
 
 /// The cover image (might be w/o actual image set)
@@ -58,7 +58,7 @@
 /// Might return something else; check type before using it as an NSURL.
 - (NSURL *)coverURL;
 
-/// Adds the coverView if not yet added. 
+/// Adds the coverView if not yet added.
 - (void)addCoverView;
 
 @end

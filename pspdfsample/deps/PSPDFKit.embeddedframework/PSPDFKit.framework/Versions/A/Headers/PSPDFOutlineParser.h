@@ -17,7 +17,7 @@
 
 /**
  Returns a single outline element for the specified page.
- 
+
  If exactPageOnly is set, the outline will only be returned if it's from the specific page.
  Else the last active set outline will be returned.
 */
@@ -45,11 +45,13 @@
 /// @warning Change this before you first call outline. Future changes won't have any effect.
 @property (nonatomic, assign) NSUInteger namedDestinationResolveThreshold;
 
+@end
+
+@interface PSPDFOutlineParser (Deprecated)
+
 /// Resolve the destinationName of an outline element.
 /// Will return NO if destinationName is nil or couldn't be resolved.
-- (BOOL)resolveDestinationNameForOutlineElement:(PSPDFOutlineElement *)outlineElement;
+- (BOOL)resolveDestinationNameForOutlineElement:(PSPDFOutlineElement *)outlineElement __attribute__ ((deprecated("Use [action resolveNamedDestionationWithDocumentProvider]")));
 
-/// Static helper, resolves named destination entries, returns dict with name -> page NSNumber
-+ (NSDictionary *)resolveDestNames:(NSSet *)destNames documentRef:(CGPDFDocumentRef)documentRef;
 
 @end
